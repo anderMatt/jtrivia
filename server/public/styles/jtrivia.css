@@ -1,0 +1,94 @@
+body{
+	font-size: 100%; /*browser default; user might have changed it. Set to 16px here instead?? */
+	background-color: #efefef;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.button-standout{
+	color: white;
+	background-color: #ff3b3f;
+	border-radius: 10px;
+	cursor: pointer;
+	padding: 0.3em;
+}
+
+.logo{
+	color: #ff3b3f;
+}
+
+#top{
+	height: 100px;
+	background-color: white;
+	border-bottom: 1px solid black;
+}
+
+#top>.logo{
+	float: left;
+	margin-left: 1em;
+}
+
+#intro{
+	text-align: center;
+	font-size: 1.5em;
+	margin: 0 auto;
+	max-width: 350px;
+	color: #00334d;
+}
+
+#intro-welcome{
+	font-size: 1.8em;
+	margin-bottom: 1em;
+}
+
+
+#intro > .button-standout{
+	margin-top: 1em;
+	font-size: 2em;
+	width: 4em;
+}
+
+#board{
+	text-align: center;
+	border: 1px solid blue;
+	box-sizing: border-box;
+}
+
+#board > .column{
+	width: 100%;
+	box-sizing: border-box;
+	border-bottom: 2px solid black;
+	overflow: auto;
+}
+
+.category{
+	height: 70px;
+	font-size: 1.4em;
+	width: 100%;
+	background-color: #00334d;
+	color: white;
+	box-sizing: border-box;
+}
+
+.clue{
+	height: 70px;
+	font-size: 1.4em;
+	background-color: #efefef;
+	float: left;
+	display: inline-block;
+	width: 20%;
+	cursor: pointer;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	border-bottom: 1px solid black;
+	box-sizing: border-box;
+}
+
+@keyframes pulse{
+	0%{
+		transform: scale(0,0)
+	}
+
+	100%{
+		transform: scale(1.5, 1.5);
+	}
+}

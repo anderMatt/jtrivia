@@ -1,0 +1,8 @@
+{{#each game}}
+	<div class="column">
+		<div class="category">{{@key}}</div>
+		{{#each this}}
+			<div class="clue">$ {{this.value}}</div>
+		{{/each}}
+	</div>
+{{/each}}

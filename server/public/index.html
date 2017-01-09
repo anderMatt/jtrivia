@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>J!Trivia</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="/styles/jtrivia.css">
+	</head>
+	<body>
+		<div id="content">
+			<div id="game-message">
+				<!--spinner, msg text, etc... -->
+			</div>
+			<div id="top">
+				<div class="logo">J!Trivia</div>
+			</div>
+			<div id="score">Your Score: $ 1,500</div>
+			<div id="board">
+				<div id="intro">
+					<div id="intro-welcome">Welcome to <span class="logo">J!Trivia</div>
+					<div>Now's your chance to prove you could be a Jeopardy champion!</div>
+					<button class="button-standout">Play</button>
+				</div>
+			</div>
+		</div>
+		<script src="/scripts/vendor/handlebars.runtime.min.js"></script>
+		<script src="/scripts/precompiled/board.handlebars.js"></script>
+		<script src="/scripts/jtrivia.model.js"></script>
+		<script src="/scripts/jtrivia.ui.js"></script>
+		<script src="/scripts/jtrivia.controller.js"></script>
+		<script src="/scripts/main.js"></script>
+	</body>
+</html>
