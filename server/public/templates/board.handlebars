@@ -2,7 +2,7 @@
 	<div class="column">
 		<div class="category">{{@key}}</div>
 		{{#each this}}
-		<div class="clue"><span>${{this.value}}</span></div>
+		<div class="clue" data-category={{@../key}} data-index={{@index}}><span>${{this.value}}</span></div>
 		{{/each}}
 	</div>
 {{/each}}

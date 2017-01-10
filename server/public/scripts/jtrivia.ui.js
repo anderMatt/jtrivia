@@ -6,14 +6,40 @@
 			score: document.getElementById('score'),
 			board: document.getElementById('board')
 		};	
+
+		this.clueSelected = new JTrivia.Event(this);
 	}
 
 	JTriviaUI.prototype.renderBoard = function(game){
 		var html = Handlebars.templates.board({game: game});
 		this.dom.board.innerHTML = html;
 		this._fadeInClueValues().then( ()=> {
-			console.log('Done fading in values');
+			this.dom.board.addEventListener('click', this.handleBoardClick.bind(this));
 		});
+	}
+
+	JTriviaUI.prototype._isValidClueSelection = function(selected){
+		if(!selected.classList.contains('clue') || selected.classList.contains('answered')){
+			return false;
+		}
+		return true;
+	}
+
+	JTriviaUI.prototype._getClueData = function(clueNode){
+		return {
+			category: clueNode.dataset.category,
+			index: clueNode.dataset.index
+		};
+	}
+
+	JTriviaUI.prototype.handleBoardClick = function(event){
+		var selected = event.target;
+		if(!this._isValidClueSelection(selected)){
+			return;
+		}
+
+		var clueData = this._getClueData(selected);
+		this.clueSelected.notify(clueData.category, clueData.index);
 	}
 
 	JTriviaUI.prototype._fadeInClueValues = function(){
