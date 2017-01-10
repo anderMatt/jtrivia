@@ -11,7 +11,7 @@
 
 	Event.prototype.notify = function(args){
 		var args = Array.prototype.slice.apply(arguments);
-		console.log("Event.notify function got these args: " + JSON.stringify(args));
+		// console.log("Event.notify function got these args: " + JSON.stringify(args));
 		for(var i=0, max=this._listeners.length; i<max; i++){
 			// this._listeners[i](args);
 			this._listeners[i].apply(null, args);

@@ -37,7 +37,7 @@
 		//TODO: set daily doubles.
 	};
 
-	JTriviaModel.prototype._determineGameRound = function(){
+	JTriviaModel.prototype._determineNextGameRound = function(){
 		switch(this.currentRoundName){
 			case null:
 				return 'jeopardy';
@@ -46,12 +46,18 @@
 			case 'double jeopardy':
 				return 'final jeopardy'
 		}
-	},
+	};
+
+
+	JTriviaModel.prototype.setActiveClue = function(category, index){
+		this.activeClue = this.round[category][index];
+		return this.activeClue;
+	}
 
 
 	JTriviaModel.prototype.loadRound = function(){
 		var self = this;
-		this.currentRoundName = this._determineGameRound(); //j, dj, or fj
+		this.currentRoundName = this._determineNextGameRound(); //j, dj, or fj
 		return this._getGameRound()
 			.then(round => {
 				self._assignClueValues(round, this.currentRoundName);
@@ -68,6 +74,7 @@
 				if(this.status == 200){
 					var game = JSON.parse(req.response);
 					resolve(game);
+
 				}
 				else {
 					reject({

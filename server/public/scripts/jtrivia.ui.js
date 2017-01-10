@@ -1,4 +1,4 @@
-//dependency: JTrivia.util
+//dependency: JTrivia.util, JTrivia.event
 
 (function(window){
 	function JTriviaUI(){
@@ -13,7 +13,7 @@
 	JTriviaUI.prototype.renderBoard = function(game){
 		var html = Handlebars.templates.board({game: game});
 		this.dom.board.innerHTML = html;
-		this._fadeInClueValues().then( ()=> {
+		this._fadeInClueValues().then(()=> {
 			this.dom.board.addEventListener('click', this.handleBoardClick.bind(this));
 		});
 	}

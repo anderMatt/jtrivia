@@ -22,7 +22,8 @@
 	JTriviaController.prototype.attachListeners = function(){
 		var self = this;
 		this.ui.clueSelected.attach(function(category, index){
-			console.log(`Ctrl notified category: ${category} index: ${index}`);
+			var clue = self.model.setActiveClue(category, index);
+			console.log('Clue from model: ' + JSON.stringify(clue));
 		});
 	};
 
