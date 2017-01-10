@@ -4,7 +4,8 @@
 	function JTriviaUI(){
 		this.dom = {
 			score: document.getElementById('score'),
-			board: document.getElementById('board')
+			board: document.getElementById('board'),
+			clueWindow: document.getElementById('clue-window')
 		};	
 
 		this.clueSelected = new JTrivia.Event(this);
@@ -19,7 +20,7 @@
 	}
 
 	JTriviaUI.prototype._isValidClueSelection = function(selected){
-		if(!selected.classList.contains('clue') || selected.classList.contains('answered')){
+		if(!selected.classList.contains('clue') || selected.classList.contains('seen')){
 			return false;
 		}
 		return true;
@@ -33,13 +34,19 @@
 	}
 
 	JTriviaUI.prototype.handleBoardClick = function(event){
-		var selected = event.target;
-		if(!this._isValidClueSelection(selected)){
+		var selectedClue = event.target;
+		if(!this._isValidClueSelection(selectedClue)){
 			return;
 		}
-
-		var clueData = this._getClueData(selected);
+	
+		selectedClue.classList.add('seen');
+		var clueData = this._getClueData(selectedClue);
 		this.clueSelected.notify(clueData.category, clueData.index);
+	}
+
+	JTriviaUI.prototype.openClue = function(clue){
+		//this.populateClueWindow(clue) ---> sets Q, Answers, etc.
+		this.dom.clueWindow.classList.add('open');
 	}
 
 	JTriviaUI.prototype._fadeInClueValues = function(){

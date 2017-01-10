@@ -23,7 +23,8 @@
 		var self = this;
 		this.ui.clueSelected.attach(function(category, index){
 			var clue = self.model.setActiveClue(category, index);
-			console.log('Clue from model: ' + JSON.stringify(clue));
+			// console.log('Clue from model: ' + JSON.stringify(clue));
+			self.ui.openClue(clue);
 		});
 	};
 
