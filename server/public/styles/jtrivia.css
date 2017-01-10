@@ -16,6 +16,13 @@ body{
 	color: #ff3b3f;
 }
 
+/*
+ #content{
+	max-width:1024px;
+	}
+	*/
+
+
 #top{
 	height: 100px;
 	background-color: white;
@@ -63,6 +70,7 @@ body{
 .category{
 	height: 70px;
 	font-size: 1.4em;
+	line-height: 2.8em;
 	width: 100%;
 	background-color: #00334d;
 	color: white;
@@ -72,6 +80,7 @@ body{
 .clue{
 	height: 70px;
 	font-size: 1.4em;
+	line-height: 2.8em;
 	background-color: #efefef;
 	float: left;
 	display: inline-block;
@@ -81,6 +90,25 @@ body{
 	border-right: 1px solid black;
 	border-bottom: 1px solid black;
 	box-sizing: border-box;
+}
+
+.clue:hover{
+	background-color: #ff3b3f;
+	color: white;
+}
+
+.clue > span{
+	opacity: 0; /* initially hidden. JS will reveal */
+	pointer-events: none;
+}
+
+.clue.answered{
+	cursor: auto;
+	background-color: #d9d9d9;
+}
+
+.clue.answered > span{
+	visibility: hidden;
 }
 
 @keyframes pulse{

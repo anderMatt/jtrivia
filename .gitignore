@@ -1,0 +1,6 @@
+.DS_Store
+node_modules
+**/*.log
+**/*.swp
+server/public/scripts/precompiled/*
+server/public/scripts/vendor
