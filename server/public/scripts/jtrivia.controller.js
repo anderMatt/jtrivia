@@ -19,20 +19,6 @@
 			//TODO: .catch ui.msg(err)
 	};
 
-	JTriviaController.prototype.attachListeners = function(){
-		var self = this;
-
-		this.ui.clueSelected.attach(function(category, index){
-			var clue = self.model.setActiveClue(category, index);
-			// console.log('Clue from model: ' + JSON.stringify(clue));
-			self.ui.openClue(category, clue); //TODO: pass category here.
-		});
-
-		this.ui.answerSubmitted.attach(function(submittedAnswer){
-			self.onAnswerSubmission(submittedAnswer);
-		});
-	};
-
 
 	JTriviaController.prototype.onAnswerSubmission = function(submittedAnswer){
 		//null answer = timeout.
@@ -41,6 +27,25 @@
 	}
 
 
+	JTriviaController.prototype.attachListeners = function(){
+		var self = this;
+
+
+		this.model.getTimer().onTimeout.attach(function(){
+			self.onAnswerSubmission(null); //'submitting' a null answer means the timer ran out.
+		});
+
+
+		this.ui.clueSelected.attach(function(category, index){
+			var clue = self.model.setActiveClue(category, index);
+			self.model.startClueTimer(2000); //TODO: buffer to give time to read clue. 1-2sec?
+			self.ui.openClue(category, clue); //TODO: pass category here.
+		});
+
+		this.ui.answerSubmitted.attach(function(submittedAnswer){
+			self.onAnswerSubmission(submittedAnswer);
+		});
+	};
 	//export to window
 	window.JTrivia = window.JTrivia || {};
 	window.JTrivia.JTriviaController = JTriviaController;

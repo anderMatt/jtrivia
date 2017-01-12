@@ -5,6 +5,9 @@
 		this.activeClue = null;
 		this.score = 0;
 
+		this.timer = new JTrivia.Timer(5000, 1000); //5 second duration, 1 sec interval.
+		this.timerTimeout = null;
+
 		this.gameConfig = {
 			"jeopardy": {
 				clueValues: [200, 400, 600, 800, 1000],
@@ -15,6 +18,10 @@
 				numDailyDoubles: 2
 			}
 		};
+
+		// this.timer.onTick.attach(()=>console.log('ticking meep'));
+		// this.timer.onTimeout.attach(()=>console.log('ending meep'));
+		// this.timer.start();
 	}
 
 
@@ -23,6 +30,33 @@
 		this.activeClue = null;
 		this.currentRoundName = null;
 		this.score = 0;
+	};
+
+
+	JTriviaModel.prototype.getTimer = function(){
+		return this.timer;
+	};
+
+	
+	JTriviaModel.prototype.startClueTimer = function(delay){
+		if(delay){
+			this.timerTimeout = window.setTimeout( ()=> {
+				this.timerTimeout = null;			
+				this.timer.start()
+			}, delay);
+		} else {
+			this.timer.start();
+		}	
+	};
+
+	JTriviaModel.prototype._stopClueTimer = function(){
+		if(this.timerTimeout){
+			//ctrl called startClueTimer with a delay - answer submitted before timer started. Clear the timeout.
+			window.clearTimeout(this.timerTimeout);
+			this.timerTimeout = null;
+		} else {
+			this.timer.stop();
+		}
 	};
 
 
@@ -57,6 +91,8 @@
 
 	JTriviaModel.prototype.answerClue = function(submittedAnswer){
 		//returns: {outcome, correctAnswer}	
+		this._stopClueTimer();
+
 		var outcome,
 			correctAnswer;
 

@@ -15,7 +15,6 @@
 
 		this.clueSelected = new JTrivia.Event(this);
 		this.answerSubmitted = new JTrivia.Event(this);
-		console.log(this.answerSubmitted._listeners);
 
 		this.attachEventListeners();
 	}
