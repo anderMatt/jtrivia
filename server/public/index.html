@@ -23,18 +23,19 @@
 						<li></li>
 						<li></li>
 					</ul>
-					<canvas id="clue-window-timer"></canvas>
-					<div id="clue-window-feedback">
-						<div data-outcome="correct">
-							<img><span>Correct!</span>
+						<canvas id="clue-window-timer" height=20></canvas>
+						<div id="clue-window-feedback">
+							<div data-outcome="correct">
+								<span class="icon check"></span><span>Correct!</span>
+							</div>
+							<div data-outcome="incorrect">
+								<span class="icon ex"></span><span>Incorrect!</span>
+							</div>
+							<div data-outcome="timeout">
+								<span class="icon clock"></span><span>Timeout!</span>
+							</div>
 						</div>
-						<div data-outcome="incorrect">
-							<img><span>Incorrect!</span>
-						</div>
-						<div data-outcome="timeout">
-							<img><span>Timeout!</span>
-						</div>
-					</div>
+						<button class="button-standout" id="close-clue">Continue</button>
 				</div> <!-- end of clue-window -->
 				<div id="board">
 					<div id="intro">

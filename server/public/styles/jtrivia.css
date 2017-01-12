@@ -142,12 +142,68 @@ ul{
 	border: 1px solid red;
 }
 
+#clue-window-feedback{
+	position: relative;
+	font-size: 1.4em;
+	border: 2px solid pink;
+	background-color:red;
+	width: 75%;
+	margin: 30px auto 0 auto;
+}
+
+
+#clue-window-timer{
+	background-color: green;
+	width: 75%;
+	margin-top: 35px;
+}
+
+
+#clue-window-feedback{
+	background-color: orange;
+	width: 50%;
+	margin-top: 35px;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 1.6em;
+}
+
+
 #clue-window-feedback > div{
 	display: none;
 }
 
 #clue-window-feedback > div.visible{
 	display: block;
+}
+
+#clue-window-feedback .icon{
+	display: inline-block;
+	height: 64px;
+	width: 64px;
+	vertical-align: middle;
+	background: url("/assets/answersprites.png") no-repeat;
+	margin-right: 25px;
+}
+
+#clue-window-feedback .icon.check{
+	background-position: 0 0;
+}
+
+#clue-window-feedback .icon.ex{
+	background-position: 0 -64px;
+}
+
+#clue-window-feedback .icon.clock{
+	background-position: 0 -128px;
+}
+
+
+
+
+#close-clue{
+	font-size: 1.6em;
+	margin-top: 25px;
 }
 
 

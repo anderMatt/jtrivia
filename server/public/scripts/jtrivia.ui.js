@@ -9,7 +9,8 @@
 			clueWindowCategory: document.getElementById('clue-window-category'),
 			clueWindowQuestion: document.getElementById('clue-window-question'),
 			clueWindowAnswers: document.getElementById('clue-window-answers'),
-			clueWindowFeedback: document.getElementById('clue-window-feedback')
+			clueWindowFeedback: document.getElementById('clue-window-feedback'),
+			closeClueBtn: document.getElementById('close-clue')
 		};	
 
 		this.clueSelected = new JTrivia.Event(this);
@@ -100,37 +101,49 @@
 		}
 		var selectedAnswer = selected.textContent;
 		this.answerSubmitted.notify(selectedAnswer);
-	}
+	};
 
-	JTriviaUI.prototype.revealAnswer = function(outcome, correctAnswer){
-		//outcome: correct, incorrect, timeout.	
+	JTriviaUI.prototype._styleAnswers = function(outcome, correctAnswer){
 		function styleIncorrectAnswer(answerNode){
-			if(outcome === 'incorrect' || outcome === 'timeout'){
-				answerNode.classList.add('incorrect');
-			} else {
+			if(outcome === 'correct'){
 				answerNode.classList.add('hidden');
-			}	
+			} else {
+				answerNode.classList.add('incorrect');
+			}
 		}
 
 		var answerNodes = this.dom.clueWindowAnswers.querySelectorAll('li');
 		for(var i=0, max=answerNodes.length; i<max; i++){
-			var answerNode = answerNodes[i];
-			if(answerNode.textContent === correctAnswer){
+			let answerNode = answerNodes[i];
+			let isCorrect = (answerNode.textContent === correctAnswer);
+			if(isCorrect){
 				answerNode.classList.add('correct');
-			} else {
-				styleIncorrectAnswer(answerNode);
+			} else{
+				styleIncorrectAnswer(answerNode);	
 			}
 		}
-		
+	};
+
+	JTriviaUI.prototype.revealAnswer = function(outcome, correctAnswer){
+		//outcome: correct, incorrect, timeout.	
+		this._styleAnswers(outcome, correctAnswer);
 		var feedbackMessage = this.dom.clueWindowFeedback.querySelector(`[data-outcome="${outcome}"]`);
 		feedbackMessage.classList.add('visible');
-	}
+		//TODO: show continue btn.
+		document.getElementById('clue-window-timer').style.display='none';
+	};
+
+	JTriviaUI.prototype.closeClue = function(){
+		console.log('closing clue');
+		this.dom.clueWindow.classList.remove('open');
+	};
 
 
 	JTriviaUI.prototype.attachEventListeners = function(){
 		//attach listeners; board event is attached in _fadeIn...put it here, but have a flag set to False before game is loaded?	
 		this.dom.clueWindowAnswers.addEventListener('click', this.submitAnswer.bind(this));
-	}
+		this.dom.closeClueBtn.addEventListener('click', this.closeClue.bind(this));
+	};
 
 
 	//export to window
