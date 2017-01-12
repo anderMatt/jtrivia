@@ -5,10 +5,49 @@
 		this.dom = {
 			score: document.getElementById('score'),
 			board: document.getElementById('board'),
-			clueWindow: document.getElementById('clue-window')
+			clueWindow: document.getElementById('clue-window'),
+			clueWindowCategory: document.getElementById('clue-window-category'),
+			clueWindowQuestion: document.getElementById('clue-window-question'),
+			clueWindowAnswers: document.getElementById('clue-window-answers'),
+			clueWindowFeedback: document.getElementById('clue-window-feedback')
 		};	
 
 		this.clueSelected = new JTrivia.Event(this);
+		this.answerSubmitted = new JTrivia.Event(this);
+		console.log(this.answerSubmitted._listeners);
+
+		this.attachEventListeners();
+	}
+
+	JTriviaUI.prototype.handleBoardClick = function(event){
+		var selectedClue = event.target;
+		if(!this._isValidClueSelection(selectedClue)){
+			return;
+		}
+	
+		selectedClue.classList.add('seen');
+		var clueData = this._getClueData(selectedClue);
+		this.clueSelected.notify(clueData.category, clueData.index);
+	}
+
+	JTriviaUI.prototype._fadeInClueValues = function(){
+		var valueNodes = this.dom.board.querySelectorAll('.clue>span');
+		var hiddenValues = valueNodes.length;
+
+		valueNodes = JTrivia.util.toArray(valueNodes); //convert to array so it can be shuffled.
+		JTrivia.util.shuffleArray(valueNodes);
+
+		return new Promise(resolve => {
+			valueNodes.forEach((node, index) => {
+				window.setTimeout( ()=> {
+					node.style.opacity = 1;
+					hiddenValues -= 1;
+					if(hiddenValues == 0){ //finished fading in clues.
+						resolve();
+					}
+				}, index*50) //stagger by 50ms
+			});
+		});
 	}
 
 	JTriviaUI.prototype.renderBoard = function(game){
@@ -33,41 +72,66 @@
 		};
 	}
 
-	JTriviaUI.prototype.handleBoardClick = function(event){
-		var selectedClue = event.target;
-		if(!this._isValidClueSelection(selectedClue)){
-			return;
-		}
-	
-		selectedClue.classList.add('seen');
-		var clueData = this._getClueData(selectedClue);
-		this.clueSelected.notify(clueData.category, clueData.index);
-	}
-
-	JTriviaUI.prototype.openClue = function(clue){
-		//this.populateClueWindow(clue) ---> sets Q, Answers, etc.
+	JTriviaUI.prototype.openClue = function(category, clue){
+		this._populateClueWindow(category, clue);
 		this.dom.clueWindow.classList.add('open');
 	}
 
-	JTriviaUI.prototype._fadeInClueValues = function(){
-		var valueNodes = this.dom.board.querySelectorAll('.clue>span');
-		var hiddenValues = valueNodes.length;
+	JTriviaUI.prototype._populateClueWindow = function(category, clue){
+		this.dom.clueWindowCategory.textContent = category;	
+		this.dom.clueWindowQuestion.textContent = clue.question;
 
-		valueNodes = JTrivia.util.toArray(valueNodes); //convert to array so it can be shuffled.
-		JTrivia.util.shuffleArray(valueNodes);
+		var answers = clue.falseAnswers.slice(0);
+		answers.push(clue.answer); //combine correct and false answers into single array for shuffling.
+		JTrivia.util.shuffleArray(answers); //shuffle answers so they appear in a random order.
 
-		return new Promise(resolve => {
-			valueNodes.forEach((node, index) => {
-				window.setTimeout( ()=> {
-					node.style.opacity = 1;
-					hiddenValues -= 1;
-					if(hiddenValues == 0){ //finished fading in clues.
-						resolve();
-					}
-				}, index*50) //stagger by 50ms
-			});
-		});
+		var answerNodes = this.dom.clueWindowAnswers.querySelectorAll('li');
+		for(var i=0, max=answerNodes.length; i<max; i++){
+			answerNodes[i].textContent = answers[i];
+		}
 	}
+
+	JTriviaUI.prototype.submitAnswer = function(event){
+		//TODO: state.answerRevealed: ignore click.
+		event.stopPropagation();
+		var selected = event.target;
+		if(!(selected.tagName === 'LI')){ //something other than an answer was clicked; ignore.
+			return;
+		}
+		var selectedAnswer = selected.textContent;
+		this.answerSubmitted.notify(selectedAnswer);
+	}
+
+	JTriviaUI.prototype.revealAnswer = function(outcome, correctAnswer){
+		//outcome: correct, incorrect, timeout.	
+		function styleIncorrectAnswer(answerNode){
+			if(outcome === 'incorrect' || outcome === 'timeout'){
+				answerNode.classList.add('incorrect');
+			} else {
+				answerNode.classList.add('hidden');
+			}	
+		}
+
+		var answerNodes = this.dom.clueWindowAnswers.querySelectorAll('li');
+		for(var i=0, max=answerNodes.length; i<max; i++){
+			var answerNode = answerNodes[i];
+			if(answerNode.textContent === correctAnswer){
+				answerNode.classList.add('correct');
+			} else {
+				styleIncorrectAnswer(answerNode);
+			}
+		}
+		
+		var feedbackMessage = this.dom.clueWindowFeedback.querySelector(`[data-outcome="${outcome}"]`);
+		feedbackMessage.classList.add('visible');
+	}
+
+
+	JTriviaUI.prototype.attachEventListeners = function(){
+		//attach listeners; board event is attached in _fadeIn...put it here, but have a flag set to False before game is loaded?	
+		this.dom.clueWindowAnswers.addEventListener('click', this.submitAnswer.bind(this));
+	}
+
 
 	//export to window
 	window.JTrivia = window.JTrivia || {};

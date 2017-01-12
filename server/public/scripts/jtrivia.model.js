@@ -55,6 +55,30 @@
 	}
 
 
+	JTriviaModel.prototype.answerClue = function(submittedAnswer){
+		//returns: {outcome, correctAnswer}	
+		var outcome,
+			correctAnswer;
+
+		if(submittedAnswer === null){
+			outcome = "timeout";
+		}
+		else{
+			outcome = (submittedAnswer === this.activeClue.answer ?
+				'correct':
+				'incorrect'
+			)
+		}
+
+		//update stats, passing outcome.
+
+		return {
+			outcome: outcome,
+			correctAnswer: this.activeClue.answer
+		};
+
+	}
+
 	JTriviaModel.prototype.loadRound = function(){
 		var self = this;
 		this.currentRoundName = this._determineNextGameRound(); //j, dj, or fj

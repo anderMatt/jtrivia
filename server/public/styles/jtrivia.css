@@ -4,6 +4,16 @@ body{
 	font-family: 'Open Sans', sans-serif;
 }
 
+ul{
+	list-style: none;
+	padding-left: 0;
+}
+
+.hidden{
+	visibility: hidden;
+}
+
+
 .button-standout{
 	color: white;
 	background-color: #ff3b3f;
@@ -65,6 +75,8 @@ body{
 	left: 50%;
 	height: 0;
 	width: 0;
+	text-align: center;
+	background-color: #00334d;
 	visibility: hidden;
 	transition: none; /*so the expanding transition doesn't happen when 'open' class is removed*/
 
@@ -76,18 +88,68 @@ body{
 	height: 100%;
 	width: 100%;
 	visibility: visible;
-	background-color: pink;
 	z-index: 9999;
 	transition: all 0.2s linear;
 }
 
-#question-window.open{
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	background-color: orange;
+#clue-window-category{
+	margin: 25px 0 35px 0;
+	padding: 15px;
+	display: inline-block;
+	font-weight: bold;
+	font-size: 1.4em;
+	border-radius: 10px;
+	color: white;
+	background-color: #107896;
 }
+
+#clue-window-question{
+	font-size: 1.2em;
+	color: white;
+	min-width: 300px; /*TODO: not needed? */
+	width: 50%;
+	margin: 0 auto;
+}
+
+#clue-window-answers{
+	margin: 40px auto 0 auto;
+	width: 50%;
+	min-width: 300px;
+}
+
+#clue-window-answers > li{
+	cursor: pointer;
+	font-size: 1.3em;
+	line-height: 2.6em;
+	min-height: 45px;
+	border: 2px solid grey;
+	color: white;
+	margin-top: 25px;
+}
+
+#clue-window-answers > li:hover{
+	background-color: #ff3b3f;
+	transform: scale(1.2);
+}
+
+#clue-window-answers > li.correct{
+	color: green;
+	border: 1px solid green;
+}
+
+#clue-window-answers > li.incorrect{
+	color: red;
+	border: 1px solid red;
+}
+
+#clue-window-feedback > div{
+	display: none;
+}
+
+#clue-window-feedback > div.visible{
+	display: block;
+}
+
 
 #board{
 	text-align: center;

@@ -15,14 +15,34 @@
 			</div>
 			<div id="score">Your Score: $ 1,500</div>
 			<div id="board-wrapper">
-				<div id="clue-window"></div>
+				<div id="clue-window">
+					<div id="clue-window-category"></div>
+					<div id="clue-window-question"></div>
+					<ul id="clue-window-answers">
+						<li></li>
+						<li></li>
+						<li></li>
+					</ul>
+					<canvas id="clue-window-timer"></canvas>
+					<div id="clue-window-feedback">
+						<div data-outcome="correct">
+							<img><span>Correct!</span>
+						</div>
+						<div data-outcome="incorrect">
+							<img><span>Incorrect!</span>
+						</div>
+						<div data-outcome="timeout">
+							<img><span>Timeout!</span>
+						</div>
+					</div>
+				</div> <!-- end of clue-window -->
 				<div id="board">
 					<div id="intro">
 						<div id="intro-welcome">Welcome to <span class="logo">J!Trivia</div>
 						<div>Now's your chance to prove you could be a Jeopardy champion!</div>
 						<button class="button-standout">Play</button>
 					</div>
-				</div>
+				</div> <!--end of board -->
 			</div>
 		</div>
 		<script src="/scripts/vendor/handlebars.runtime.min.js"></script>

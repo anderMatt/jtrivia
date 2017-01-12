@@ -21,12 +21,25 @@
 
 	JTriviaController.prototype.attachListeners = function(){
 		var self = this;
+
 		this.ui.clueSelected.attach(function(category, index){
 			var clue = self.model.setActiveClue(category, index);
 			// console.log('Clue from model: ' + JSON.stringify(clue));
-			self.ui.openClue(clue);
+			self.ui.openClue(category, clue); //TODO: pass category here.
+		});
+
+		this.ui.answerSubmitted.attach(function(submittedAnswer){
+			self.onAnswerSubmission(submittedAnswer);
 		});
 	};
+
+
+	JTriviaController.prototype.onAnswerSubmission = function(submittedAnswer){
+		//null answer = timeout.
+		var answerOutcome = this.model.answerClue(submittedAnswer);
+		this.ui.revealAnswer(answerOutcome.outcome, answerOutcome.correctAnswer);
+	}
+
 
 	//export to window
 	window.JTrivia = window.JTrivia || {};
