@@ -9,6 +9,7 @@
 			clueWindowCategory: document.getElementById('clue-window-category'),
 			clueWindowQuestion: document.getElementById('clue-window-question'),
 			clueWindowAnswers: document.getElementById('clue-window-answers'),
+			clueWindowTimer: document.getElementById('clue-window-timer'),
 			clueWindowFeedback: document.getElementById('clue-window-feedback'),
 			closeClueBtn: document.getElementById('close-clue')
 		};	
@@ -28,7 +29,7 @@
 		selectedClue.classList.add('seen');
 		var clueData = this._getClueData(selectedClue);
 		this.clueSelected.notify(clueData.category, clueData.index);
-	}
+	};
 
 	JTriviaUI.prototype._fadeInClueValues = function(){
 		var valueNodes = this.dom.board.querySelectorAll('.clue>span');
@@ -48,7 +49,7 @@
 				}, index*50) //stagger by 50ms
 			});
 		});
-	}
+	};
 
 	JTriviaUI.prototype.renderBoard = function(game){
 		var html = Handlebars.templates.board({game: game});
@@ -56,26 +57,26 @@
 		this._fadeInClueValues().then(()=> {
 			this.dom.board.addEventListener('click', this.handleBoardClick.bind(this));
 		});
-	}
+	};
 
 	JTriviaUI.prototype._isValidClueSelection = function(selected){
 		if(!selected.classList.contains('clue') || selected.classList.contains('seen')){
 			return false;
 		}
 		return true;
-	}
+	};
 
 	JTriviaUI.prototype._getClueData = function(clueNode){
 		return {
 			category: clueNode.dataset.category,
 			index: clueNode.dataset.index
 		};
-	}
+	};
 
 	JTriviaUI.prototype.openClue = function(category, clue){
 		this._populateClueWindow(category, clue);
 		this.dom.clueWindow.classList.add('open');
-	}
+	};
 
 	JTriviaUI.prototype._populateClueWindow = function(category, clue){
 		this.dom.clueWindowCategory.textContent = category;	
@@ -85,11 +86,11 @@
 		answers.push(clue.answer); //combine correct and false answers into single array for shuffling.
 		JTrivia.util.shuffleArray(answers); //shuffle answers so they appear in a random order.
 
-		var answerNodes = this.dom.clueWindowAnswers.querySelectorAll('li');
+		var answerNodes = this.dom.clueWindowAnswers.children;
 		for(var i=0, max=answerNodes.length; i<max; i++){
 			answerNodes[i].textContent = answers[i];
 		}
-	}
+	};
 
 	JTriviaUI.prototype.submitAnswer = function(event){
 		//TODO: state.answerRevealed: ignore click.
@@ -111,7 +112,8 @@
 			}
 		}
 
-		var answerNodes = this.dom.clueWindowAnswers.querySelectorAll('li');
+		// var answerNodes = this.dom.clueWindowAnswers.querySelectorAll('li');
+		var answerNodes = this.dom.clueWindowAnswers.children;
 		for(var i=0, max=answerNodes.length; i<max; i++){
 			let answerNode = answerNodes[i];
 			let isCorrect = (answerNode.textContent === correctAnswer);
@@ -129,11 +131,29 @@
 		var feedbackMessage = this.dom.clueWindowFeedback.querySelector(`[data-outcome="${outcome}"]`);
 		feedbackMessage.classList.add('visible');
 		//TODO: show continue btn.
-		document.getElementById('clue-window-timer').style.display='none';
+		// document.getElementById('clue-window-timer').style.display='none';
+		this.dom.clueWindowTimer.classList.add('none');
+	};
+
+
+	JTriviaUI.prototype._resetClueWindow = function(){
+		//remove correct/incorrect style classes from answer nodes.
+		let answerNodes = this.dom.clueWindowAnswers.children;
+		for(var i=0, max=answerNodes.length; i<max; i++){
+			answerNodes[i].className=''; 
+		}
+	
+		//hide feedback message from last answer.
+		let feedback = this.dom.clueWindowFeedback.querySelector('.visible');
+		feedback.classList.remove('visible');
+	
+		//show the timer for the next clue
+		this.dom.clueWindowTimer.classList.remove('none');
+		return;
 	};
 
 	JTriviaUI.prototype.closeClue = function(){
-		console.log('closing clue');
+		this._resetClueWindow();
 		this.dom.clueWindow.classList.remove('open');
 	};
 

@@ -9,8 +9,12 @@ ul{
 	padding-left: 0;
 }
 
+.none{
+	display: none !important;
+}
+
 .hidden{
-	visibility: hidden;
+	visibility: hidden !important;
 }
 
 
