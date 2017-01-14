@@ -83,6 +83,7 @@ ul{
 	text-align: center;
 	background-color: #00334d;
 	visibility: hidden;
+	overflow: hidden;
 	transition: none; /*so the expanding transition doesn't happen when 'open' class is removed*/
 
 }
