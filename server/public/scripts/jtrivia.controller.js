@@ -38,7 +38,7 @@
 
 		this.ui.clueSelected.attach(function(category, index){
 			var clue = self.model.setActiveClue(category, index);
-			self.model.startClueTimer(2000); //TODO: buffer to give time to read clue. 1-2sec?
+			self.model.startClueTimer(1000); //TODO: buffer to give time to read clue. 1-2sec?
 			self.ui.openClue(category, clue); //TODO: pass category here.
 		});
 
