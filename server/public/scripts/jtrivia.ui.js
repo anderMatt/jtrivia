@@ -13,7 +13,8 @@
 			clueWindowFeedback: document.getElementById('clue-window-feedback'),
 			closeClueBtn: document.getElementById('close-clue')
 		};	
-
+		
+		this._previousScrollPosition = null;
 		this.clueSelected = new JTrivia.Event(this);
 		this.answerSubmitted = new JTrivia.Event(this);
 
@@ -76,6 +77,7 @@
 	JTriviaUI.prototype.openClue = function(category, clue){
 		this._populateClueWindow(category, clue);
 		this.dom.clueWindow.classList.add('open');
+		this._scrollWithClueWindow();
 	};
 
 	JTriviaUI.prototype._populateClueWindow = function(category, clue){
@@ -90,6 +92,23 @@
 		for(var i=0, max=answerNodes.length; i<max; i++){
 			answerNodes[i].textContent = answers[i];
 		}
+	};
+
+	JTriviaUI.prototype._scrollWithClueWindow = function(){
+		if(this._previousScrollPosition){
+			window.scroll(0, this._previousScrollPosition);
+			this._previousScrollPosition = null;
+		}
+		else{
+			var scrollCorrection = this.dom.board.getBoundingClientRect().top;
+			if(scrollCorrection < 0){
+				this._previousScrollPosition = window.scrollY; //save current scroll position to return on close.
+				var correctedScrollPosition = this.dom.board.offsetParent.offsetTop;
+				window.scroll(0, correctedScrollPosition);
+			}
+			
+		}
+
 	};
 
 	JTriviaUI.prototype.submitAnswer = function(event){
@@ -155,6 +174,7 @@
 	JTriviaUI.prototype.closeClue = function(){
 		this._resetClueWindow();
 		this.dom.clueWindow.classList.remove('open');
+		this._scrollWithClueWindow();
 	};
 
 
