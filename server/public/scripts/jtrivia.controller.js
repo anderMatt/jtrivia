@@ -35,6 +35,9 @@
 			self.onAnswerSubmission(null); //'submitting' a null answer means the timer ran out.
 		});
 
+		this.ui.startNewGame.attach(function(){
+			self.loadRound(true);
+		});
 
 		this.ui.clueSelected.attach(function(category, index){
 			var clue = self.model.setActiveClue(category, index);

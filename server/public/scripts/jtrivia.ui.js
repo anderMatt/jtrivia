@@ -3,6 +3,9 @@
 (function(window){
 	function JTriviaUI(){
 		this.dom = {
+			startNewGame: [
+				document.getElementById('play') //menu, playAgain
+			],
 			score: document.getElementById('score'),
 			board: document.getElementById('board'),
 			clueWindow: document.getElementById('clue-window'),
@@ -15,6 +18,8 @@
 		};	
 		
 		this._previousScrollPosition = null;
+
+		this.startNewGame = new JTrivia.Event(this);
 		this.clueSelected = new JTrivia.Event(this);
 		this.answerSubmitted = new JTrivia.Event(this);
 
@@ -103,7 +108,7 @@
 			var scrollCorrection = this.dom.board.getBoundingClientRect().top;
 			if(scrollCorrection < 0){
 				this._previousScrollPosition = window.scrollY; //save current scroll position to return on close.
-				var correctedScrollPosition = this.dom.board.offsetParent.offsetTop;
+				var correctedScrollPosition = this.dom.board.offsetParent.offsetTop; //offsetParent is the last relative ancestor before window. We want this distance to the top of window.
 				window.scroll(0, correctedScrollPosition);
 			}
 			
@@ -180,6 +185,12 @@
 
 	JTriviaUI.prototype.attachEventListeners = function(){
 		//attach listeners; board event is attached in _fadeIn...put it here, but have a flag set to False before game is loaded?	
+		var self = this;
+		this.dom.startNewGame.forEach(el => {
+			el.addEventListener('click', function(){
+				self.startNewGame.notify();
+			});
+		});
 		this.dom.clueWindowAnswers.addEventListener('click', this.submitAnswer.bind(this));
 		this.dom.closeClueBtn.addEventListener('click', this.closeClue.bind(this));
 	};

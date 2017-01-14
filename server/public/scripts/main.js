@@ -6,6 +6,6 @@
 	}
 
 	var app = new JTriviaApp();
-	app.controller.loadRound(); //newGame=T/F
+	// app.controller.loadRound(); //newGame=T/F
 
 }(window))
