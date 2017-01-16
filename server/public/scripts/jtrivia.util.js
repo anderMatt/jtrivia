@@ -8,7 +8,23 @@
 			arr[counter] = arr[index];
 			arr[index] = temp;
 		}
-	}	
+	};
+
+	function getRandomNumbers(min, max, sampleSize){
+		//TODO: TypeErrors.
+		var numbers = [];
+		for(var i=min; i<sampleSize; i++){
+			numbers.push(i);
+		}
+
+		shuffleArray(numbers);
+		var randomNumbers = numbers.slice(0, sampleSize);
+		return randomNumbers;
+
+		//stackoverflow.com/questions.2380019/generate-uunique-random-numbers-between-1-and-100;
+
+	};
+
 
 	function toArray(collection){
 		return Array.prototype.slice.call(collection);

@@ -69,6 +69,12 @@
 			});
 		});
 		//TODO: set daily doubles.
+
+		var randomClueIndices =
+	};
+
+	JTriviaModel.prototype._assignDailyDoubles(gameObj){
+		var allClues = Object.keys	
 	};
 
 	JTriviaModel.prototype._determineNextGameRound = function(){
@@ -113,7 +119,7 @@
 			correctAnswer: this.activeClue.answer
 		};
 
-	}
+	};
 
 	JTriviaModel.prototype.loadRound = function(){
 		var self = this;
@@ -143,6 +149,8 @@
 					});
 				}
 			}
+
+			//TODO: req.onerror
 
 			req.send();
 		}
