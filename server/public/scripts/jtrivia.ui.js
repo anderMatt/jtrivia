@@ -16,6 +16,10 @@
 			clueWindowFeedback: document.getElementById('clue-window-feedback'),
 			closeClueBtn: document.getElementById('close-clue')
 		};	
+
+		this.state = {
+			answerRevealed: false
+		};
 		
 		this._previousScrollPosition = null;
 
@@ -119,6 +123,9 @@
 	JTriviaUI.prototype.submitAnswer = function(event){
 		//TODO: state.answerRevealed: ignore click.
 		event.stopPropagation();
+		if(this.state.answerRevealed){
+			return;
+		}
 		var selected = event.target;
 		if(!(selected.tagName === 'LI')){ //something other than an answer was clicked; ignore.
 			return;
@@ -151,17 +158,19 @@
 
 	JTriviaUI.prototype.revealAnswer = function(outcome, correctAnswer){
 		//outcome: correct, incorrect, timeout.	
+		this.state.answerRevealed = true;
 		this._styleAnswers(outcome, correctAnswer);
 		var feedbackMessage = this.dom.clueWindowFeedback.querySelector(`[data-outcome="${outcome}"]`);
 		feedbackMessage.classList.add('visible');
 		//TODO: show continue btn.
-		// document.getElementById('clue-window-timer').style.display='none';
 		this.dom.clueWindowTimer.classList.add('none');
 	};
 
 
 	JTriviaUI.prototype._resetClueWindow = function(){
 		//remove correct/incorrect style classes from answer nodes.
+		this.state.answerRevealed = false;
+
 		let answerNodes = this.dom.clueWindowAnswers.children;
 		for(var i=0, max=answerNodes.length; i<max; i++){
 			answerNodes[i].className=''; 
