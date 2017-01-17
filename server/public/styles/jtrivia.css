@@ -30,6 +30,25 @@ ul{
 	padding: 0.3em;
 }
 
+.input-has-icon{
+	position: relative;	
+}
+
+
+.input-has-icon .icon{
+	position: absolute;
+	left: 3px;
+	top: 10px;
+	height: 15px;
+	width: 15px;
+}
+
+.input-has-icon input[type="text"]{
+	width: 100%;
+	text-indent: 20px;
+}
+
+
 .flipper{
 	position: relative;
 	transform-style: preserve-3d;
@@ -156,10 +175,14 @@ ul{
 	margin-right: 9px;
 }
 
-#dailydouble-wager{
+#dailydouble-window .input-has-icon{
 	width: 33%;
+	max-width: 100px;
+	display: inline-block;
+}
+
+#dailydouble-wager{
 	font-size: 1.2em;
-	min-width: 75px;
 	transition: box-shadow 0.2s linear;
 }
 
@@ -170,12 +193,16 @@ ul{
 #dailydouble-err{
 	font-size: 1em;
 	height: 2em;
+	width: 80%;
 	line-height: 2em;
 	display: block;
 	background-color: white;
 	padding: 2px;
 	box-sizing: border-box;
 	margin-top: 4px;
+	margin-left: auto;
+	margin-right: auto;
+
 }
 
 #dailydouble-err:empty{
@@ -363,8 +390,6 @@ ul{
 #clue-window-feedback .icon.clock{
 	background-position: 0 -128px;
 }
-
-
 
 
 #close-clue{
