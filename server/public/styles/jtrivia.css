@@ -13,6 +13,10 @@ ul{
 	color: #ff3b3f;
 }
 
+.faded{
+	opacity: 0.5;
+}
+
 .none{
 	display: none !important;
 }
@@ -157,7 +161,9 @@ ul{
 	box-shadow: 5px 5px 5px black;
 	z-index: 9999;
 	visibility: hidden;
+	transition: all 0.4s linear;
 }
+
 
 #dailydouble-window .back>span{
 	font-size: 1.6em;

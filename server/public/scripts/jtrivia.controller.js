@@ -24,22 +24,29 @@
 		var clue = this.model.setActiveClue(clueCategory, clueIndex);
 		if(clue.dailyDouble){
 			this.ui.getDailyDoubleWager();
-			return;
+		} else{
+			this._openActiveClue();
 		}
-		this.model.startClueTimer(1000); //delay timer by one second, for time to start reading clue question.
-		this.ui.openClue(clue);
 	};
+
+
+	JTriviaController.prototype._openActiveClue = function(){
+		var clue = this.model.getActiveClue();
+		this.model.startClueTimer(1000);
+		this.ui.openClue(clue);
+	}
 
 
 	JTriviaController.prototype._onWagerSubmission = function(wager){
 		var err = this.model.validateWager(wager);
-		console.log('ERR given to ctrl: ' + err);
 		if(err){
 			this.ui.dailyDoubleWagerError(err);
 			return;
+		} else {
+			this.ui.closeWindow('dailydouble wager');
+			this._openActiveClue();
+
 		}
-		//No err = wager was valid. ui.openClue()
-		return;
 	};
 
 

@@ -22,6 +22,7 @@
 		};	
 
 		this.state = {
+			boardDisabled: true,
 			answerRevealed: false
 		};
 		
@@ -36,6 +37,9 @@
 	}
 
 	JTriviaUI.prototype.handleBoardClick = function(event){
+		if(this.state.windowOpen){
+			return;
+		}
 		var selectedClue = event.target;
 		if(!this._isValidClueSelection(selectedClue)){
 			return;
@@ -89,6 +93,7 @@
 	};
 
 	JTriviaUI.prototype.openClue = function(clue){
+		this.state.windowOpen = true;
 		this._populateClueWindow(clue);
 		this.dom.clueWindow.classList.add('open');
 		this._scrollWithClueWindow();
@@ -128,13 +133,14 @@
 
 	JTriviaUI.prototype.getDailyDoubleWager = function(){
 		//TODO: reset.
+		this.state.windowOpen = true;
+		this.dom.board.classList.add('faded');
 		this.dom.dailyDoubleWindow.classList.add('flipped');
 		this.dom.dailyDoubleWager.focus();
 	};
 
 
 	JTriviaUI.prototype.dailyDoubleWagerError = function(err){
-		console.log('UI given this err: ' + err);
 		this.dom.dailyDoubleErr.textContent = err;
 		this.dom.dailyDoubleWager.focus();
 	};
@@ -172,7 +178,6 @@
 			}
 		}
 
-		// var answerNodes = this.dom.clueWindowAnswers.querySelectorAll('li');
 		var answerNodes = this.dom.clueWindowAnswers.children;
 		for(var i=0, max=answerNodes.length; i<max; i++){
 			let answerNode = answerNodes[i];
@@ -214,10 +219,23 @@
 		return;
 	};
 
-	JTriviaUI.prototype.closeClue = function(){
-		this._resetClueWindow();
-		this.dom.clueWindow.classList.remove('open');
-		this._scrollWithClueWindow();
+
+	JTriviaUI.prototype.closeWindow = function(winName){
+		this.state.windowOpen = false;
+		this.dom.board.classList.remove('faded');
+
+		switch(winName){
+			case "clue":
+				this._resetClueWindow();
+				this.dom.clueWindow.classList.remove('open');
+				this._scrollWithClueWindow();
+				break;
+
+			case "dailydouble wager":
+				this.dom.dailyDoubleWindow.classList.remove('flipped');
+				//TODO: reset DD wager input, errs.
+				break;
+		}	
 	};
 
 
@@ -232,7 +250,9 @@
 
 		this.dom.submitWager.addEventListener('click', this.submitWager.bind(this));
 		this.dom.clueWindowAnswers.addEventListener('click', this.submitAnswer.bind(this));
-		this.dom.closeClueBtn.addEventListener('click', this.closeClue.bind(this));
+		this.dom.closeClueBtn.addEventListener('click', function(){
+			self.closeWindow('clue');
+		});
 
 		this.dom.dailyDoubleWager.addEventListener('keydown', JTrivia.util.numericOnly);
 	};
