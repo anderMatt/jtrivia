@@ -27,7 +27,7 @@
 			return;
 		}
 		this.model.startClueTimer(1000); //delay timer by one second, for time to start reading clue question.
-		this.ui.openClue(clueCategory, clue);
+		this.ui.openClue(clue);
 	};
 
 

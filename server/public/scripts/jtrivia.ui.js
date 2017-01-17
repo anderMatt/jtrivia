@@ -88,14 +88,14 @@
 		};
 	};
 
-	JTriviaUI.prototype.openClue = function(category, clue){
-		this._populateClueWindow(category, clue);
+	JTriviaUI.prototype.openClue = function(clue){
+		this._populateClueWindow(clue);
 		this.dom.clueWindow.classList.add('open');
 		this._scrollWithClueWindow();
 	};
 
-	JTriviaUI.prototype._populateClueWindow = function(category, clue){
-		this.dom.clueWindowCategory.textContent = category;	
+	JTriviaUI.prototype._populateClueWindow = function(clue){
+		this.dom.clueWindowCategory.textContent = clue.category;	
 		this.dom.clueWindowQuestion.textContent = clue.question;
 
 		var answers = clue.falseAnswers.slice(0);

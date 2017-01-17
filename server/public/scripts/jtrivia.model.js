@@ -97,7 +97,11 @@
 
 
 	JTriviaModel.prototype.setActiveClue = function(category, index){
-		this.activeClue = this.round[category][index];
+
+		var clue = this.round[category][index];
+		this.activeClue = Object.assign({}, clue);
+		this.activeClue.category = category;
+
 		return this.activeClue;
 	};
 
@@ -117,8 +121,6 @@
 		} else {
 		return null; //valid wager.	
 	}
-
-
 	};
 
 
