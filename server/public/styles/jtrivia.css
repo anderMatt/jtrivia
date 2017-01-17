@@ -9,6 +9,10 @@ ul{
 	padding-left: 0;
 }
 
+.error{
+	color: #ff3b3f;
+}
+
 .none{
 	display: none !important;
 }
@@ -124,6 +128,7 @@ ul{
 	top: 50%;
 	left: 0;
 	right: 0;
+	margin-top: -20%;
 	margin-left: auto;
 	margin-right: auto;
 	width: 40%;
@@ -137,22 +142,46 @@ ul{
 
 #dailydouble-window .back>span{
 	font-size: 1.6em;
-	display: block;
+	display: inline-block;
 	margin-top: 20px;
 	margin-bottom: 30px;
+	padding: 0 9px 5px 9px;
+	border-bottom: 1px solid white;
 }
 
 #dailydouble-window label{
 	width: 25%;
 	display: inline-block;
 	font-size: 1.3em;
+	margin-right: 9px;
 }
 
-#dailydouble-window input{
+#dailydouble-wager{
 	width: 33%;
 	font-size: 1.2em;
 	min-width: 75px;
+	transition: box-shadow 0.2s linear;
 }
+
+#dailydouble-wager:focus{
+	box-shadow: 0 0 3px 1px;
+}
+
+#dailydouble-err{
+	font-size: 1em;
+	height: 2em;
+	line-height: 2em;
+	display: block;
+	background-color: white;
+	padding: 2px;
+	box-sizing: border-box;
+	margin-top: 4px;
+}
+
+#dailydouble-err:empty{
+	visibility: hidden; /*keep taking up space do btn doesn't move */
+}
+
 
 #submit-wager{
 	display: block;

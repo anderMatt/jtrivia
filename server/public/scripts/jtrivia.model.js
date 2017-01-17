@@ -11,11 +11,13 @@
 		this.gameConfig = {
 			"jeopardy": {
 				clueValues: [200, 400, 600, 800, 1000],
-				numDailyDoubles: 1
+				numDailyDoubles: 1,
+				maxDailyDoubleWager: 1000 //max is current score ('true daily double') OR max clue value, whichever is greater.
 			},
 			"double jeopardy": {
 				clueValues: [400, 800, 1200, 1600, 2000],
-				numDailyDoubles: 2
+				numDailyDoubles: 2,
+				maxDailyDoubleWager: 2000
 			}
 		};
 
@@ -97,7 +99,27 @@
 	JTriviaModel.prototype.setActiveClue = function(category, index){
 		this.activeClue = this.round[category][index];
 		return this.activeClue;
+	};
+
+
+	JTriviaModel.prototype.validateWager = function(wager){
+		if(wager < 5){
+			return "Wager must be at least five dollars."	
+		}
+
+		var defaultMaxWager = this.gameConfig[this.currentRoundName].maxDailyDoubleWager;
+		var maxValidWager = ( (this.currentScore >= defaultMaxWager) ?
+			this.currentScore :
+			defaultMaxWager);
+
+		if(wager > maxValidWager){
+			return `The maximum wager is ${maxValidWager}`;
+		} else {
+		return null; //valid wager.	
 	}
+
+
+	};
 
 
 	JTriviaModel.prototype.answerClue = function(submittedAnswer){

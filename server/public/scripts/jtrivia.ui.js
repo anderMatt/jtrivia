@@ -9,6 +9,9 @@
 			score: document.getElementById('score'),
 			board: document.getElementById('board'),
 			dailyDoubleWindow: document.getElementById('dailydouble-window'),
+			submitWager: document.getElementById('submit-wager'),
+			dailyDoubleWager: document.getElementById('dailydouble-wager'),
+			dailyDoubleErr: document.getElementById('dailydouble-err'),
 			clueWindow: document.getElementById('clue-window'),
 			clueWindowCategory: document.getElementById('clue-window-category'),
 			clueWindowQuestion: document.getElementById('clue-window-question'),
@@ -26,6 +29,7 @@
 
 		this.startNewGame = new JTrivia.Event(this);
 		this.clueSelected = new JTrivia.Event(this);
+		this.wagerSubmitted = new JTrivia.Event(this);
 		this.answerSubmitted = new JTrivia.Event(this);
 
 		this.attachEventListeners();
@@ -123,9 +127,27 @@
 
 
 	JTriviaUI.prototype.getDailyDoubleWager = function(){
-		console.log("UI is getting wager..");
+		//TODO: reset.
 		this.dom.dailyDoubleWindow.classList.add('flipped');
+		this.dom.dailyDoubleWager.focus();
 	};
+
+
+	JTriviaUI.prototype.dailyDoubleWagerError = function(err){
+		console.log('UI given this err: ' + err);
+		this.dom.dailyDoubleErr.textContent = err;
+		this.dom.dailyDoubleWager.focus();
+	};
+
+
+	JTriviaUI.prototype.submitWager = function(){
+		var wager = parseInt(this.dom.dailyDoubleWager.value);
+		if(isNaN(wager)){
+			return;
+		}
+		this.wagerSubmitted.notify(wager);
+	};
+
 
 	JTriviaUI.prototype.submitAnswer = function(event){
 		//TODO: state.answerRevealed: ignore click.
@@ -207,8 +229,12 @@
 				self.startNewGame.notify();
 			});
 		});
+
+		this.dom.submitWager.addEventListener('click', this.submitWager.bind(this));
 		this.dom.clueWindowAnswers.addEventListener('click', this.submitAnswer.bind(this));
 		this.dom.closeClueBtn.addEventListener('click', this.closeClue.bind(this));
+
+		this.dom.dailyDoubleWager.addEventListener('keydown', JTrivia.util.numericOnly);
 	};
 
 

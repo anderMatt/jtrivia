@@ -10,28 +10,27 @@
 		}
 	};
 
-	function getRandomNumbers(min, max, sampleSize){
-		//TODO: TypeErrors.
-		var numbers = [];
-		for(var i=min; i<sampleSize; i++){
-			numbers.push(i);
+	function numericOnly(event){
+		var k = event.keyCode;
+		//allow arrow keys.
+		if( (k >= 48 && k <= 57) || //numbers (TODO: numpad)
+			(k >= 37 && k <= 40) || //arrow keys
+			( [8, 9, 27, 17, 13].indexOf(k) != -1) //backspace, tab, escape, ctrl, enter.
+		){
+			return;
+		} else {
+			event.preventDefault();
 		}
-
-		shuffleArray(numbers);
-		var randomNumbers = numbers.slice(0, sampleSize);
-		return randomNumbers;
-
-		//stackoverflow.com/questions.2380019/generate-uunique-random-numbers-between-1-and-100;
-
-	};
-
+	}
 
 	function toArray(collection){
 		return Array.prototype.slice.call(collection);
 	}
 
+
 	var util = {
 		shuffleArray: shuffleArray,
+		numericOnly: numericOnly,
 		toArray: toArray
 	};
 

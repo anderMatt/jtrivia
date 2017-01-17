@@ -20,11 +20,36 @@
 	};
 
 
-	JTriviaController.prototype.onAnswerSubmission = function(submittedAnswer){
+	JTriviaController.prototype._onClueSelection = function(clueCategory, clueIndex){
+		var clue = this.model.setActiveClue(clueCategory, clueIndex);
+		if(clue.dailyDouble){
+			this.ui.getDailyDoubleWager();
+			return;
+		}
+		this.model.startClueTimer(1000); //delay timer by one second, for time to start reading clue question.
+		this.ui.openClue(clueCategory, clue);
+	};
+
+
+	JTriviaController.prototype._onWagerSubmission = function(wager){
+		var err = this.model.validateWager(wager);
+		console.log('ERR given to ctrl: ' + err);
+		if(err){
+			this.ui.dailyDoubleWagerError(err);
+			return;
+		}
+		//No err = wager was valid. ui.openClue()
+		return;
+	};
+
+
+	JTriviaController.prototype._onAnswerSubmission = function(submittedAnswer){
 		//null answer = timeout.
 		var answerOutcome = this.model.answerClue(submittedAnswer);
 		this.ui.revealAnswer(answerOutcome.outcome, answerOutcome.correctAnswer);
-	}
+	};
+
+
 
 
 	JTriviaController.prototype.attachListeners = function(){
@@ -32,7 +57,7 @@
 
 
 		this.model.getTimer().onTimeout.attach(function(){
-			self.onAnswerSubmission(null); //'submitting' a null answer means the timer ran out.
+			self._onAnswerSubmission(null); //'submitting' a null answer means the timer ran out.
 		});
 
 		this.ui.startNewGame.attach(function(){
@@ -40,13 +65,15 @@
 		});
 
 		this.ui.clueSelected.attach(function(category, index){
-			var clue = self.model.setActiveClue(category, index);
-			self.model.startClueTimer(1000); //TODO: buffer to give time to read clue. 1-2sec?
-			self.ui.openClue(category, clue); //TODO: pass category here.
+			self._onClueSelection(category, index);
+		});
+
+		this.ui.wagerSubmitted.attach(function(wager){
+			self._onWagerSubmission(wager);
 		});
 
 		this.ui.answerSubmitted.attach(function(submittedAnswer){
-			self.onAnswerSubmission(submittedAnswer);
+			self._onAnswerSubmission(submittedAnswer);
 		});
 	};
 	//export to window
