@@ -19,9 +19,6 @@
 			}
 		};
 
-		// this.timer.onTick.attach(()=>console.log('ticking meep'));
-		// this.timer.onTimeout.attach(()=>console.log('ending meep'));
-		// this.timer.start();
 	}
 
 
@@ -60,21 +57,29 @@
 	};
 
 
-	JTriviaModel.prototype._assignClueValues = function(gameObj, roundName){
-		var clueValues = this.gameConfig[roundName].clueValues;
+	JTriviaModel.prototype._assignClueValues = function(roundObj, clueValues){
 
-		Object.keys(gameObj).forEach(category => {
-			gameObj[category].forEach( (clue, clueIndex) => {
+		Object.keys(roundObj).forEach(category => {
+			roundObj[category].forEach( (clue, clueIndex) => {
 				clue.value = clueValues[clueIndex];
 			});
 		});
 		//TODO: set daily doubles.
-
-		var randomClueIndices =
 	};
 
-	JTriviaModel.prototype._assignDailyDoubles(gameObj){
-		var allClues = Object.keys	
+	JTriviaModel.prototype._assignDailyDoubles = function(roundObj, numDailyDoubles){
+		
+		var categories = Object.keys(roundObj);
+		var clueIndices = [0, 1, 2, 3, 4];
+
+		JTrivia.util.shuffleArray(categories);
+		JTrivia.util.shuffleArray(clueIndices);
+
+		for(var i=0, max=numDailyDoubles; i<max; i++){
+			let randomCategory = categories[i];
+			let randomClue = clueIndices[i];
+			roundObj[randomCategory][randomClue].dailyDouble = true;
+		}
 	};
 
 	JTriviaModel.prototype._determineNextGameRound = function(){
@@ -124,9 +129,16 @@
 	JTriviaModel.prototype.loadRound = function(){
 		var self = this;
 		this.currentRoundName = this._determineNextGameRound(); //j, dj, or fj
+
 		return this._getGameRound()
 			.then(round => {
-				self._assignClueValues(round, this.currentRoundName);
+				var clueValues = this.gameConfig[this.currentRoundName].clueValues;
+				var numDailyDoubles = this.gameConfig[this.currentRoundName].numDailyDoubles;
+				
+				//add clue values and daily doubles to the round.
+				self._assignClueValues(round, clueValues);
+				self._assignDailyDoubles(round, numDailyDoubles);
+
 				self.round = round;
 				return self.round;
 			}); //where to catch?
