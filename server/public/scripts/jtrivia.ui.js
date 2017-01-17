@@ -8,6 +8,7 @@
 			],
 			score: document.getElementById('score'),
 			board: document.getElementById('board'),
+			dailyDoubleWindow: document.getElementById('dailydouble-window'),
 			clueWindow: document.getElementById('clue-window'),
 			clueWindowCategory: document.getElementById('clue-window-category'),
 			clueWindowQuestion: document.getElementById('clue-window-question'),
@@ -118,6 +119,12 @@
 			
 		}
 
+	};
+
+
+	JTriviaUI.prototype.getDailyDoubleWager = function(){
+		console.log("UI is getting wager..");
+		this.dom.dailyDoubleWindow.classList.add('flipped');
 	};
 
 	JTriviaUI.prototype.submitAnswer = function(event){

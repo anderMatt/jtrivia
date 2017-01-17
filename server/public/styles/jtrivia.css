@@ -26,6 +26,38 @@ ul{
 	padding: 0.3em;
 }
 
+.flipper{
+	position: relative;
+	transform-style: preserve-3d;
+	perspective: 1000px;
+	transition: transform 0.6s linear;
+}
+
+.flipper .front, .flipper .back{
+		position: absolute;
+		left: 0;
+		right: 0;
+		height: 100%;
+		width: 100%;
+		-webkit-backface-visibility: hidden;
+		-moz-backface-visibility: hidden;
+		backface-visibility: hidden;
+}
+
+.flipper .front{
+	transform: rotateY(0deg);
+	transform: rotateX(0deg);
+}
+
+.flipper .back{
+	transform: rotateX(0deg);
+	transform: rotateY(180deg);
+}
+
+.flipper.flipped{
+	transform: rotateY(180deg);
+}
+
 .logo{
 	color: #ff3b3f;
 }
@@ -71,6 +103,7 @@ ul{
 
 #board-wrapper{
 	position: relative;
+	text-align: center;
 }
 
 #clue-window{
@@ -79,13 +112,81 @@ ul{
 	left: 50%;
 	height: 0;
 	width: 0;
-	text-align: center;
 	background-color: #00334d;
 	visibility: hidden;
 	overflow: hidden;
 	transition: none; /*so the expanding transition doesn't happen when 'open' class is removed*/
 
 }
+
+#dailydouble-window{
+	position: fixed;
+	top: 50%;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	width: 40%;
+	min-height: 250px;
+	min-width: 250px;
+	color: white;
+	box-shadow: 5px 5px 5px black;
+	z-index: 9999;
+	visibility: hidden;
+}
+
+#dailydouble-window .back>span{
+	font-size: 1.6em;
+	display: block;
+	margin-top: 20px;
+	margin-bottom: 30px;
+}
+
+#dailydouble-window label{
+	width: 25%;
+	display: inline-block;
+	font-size: 1.3em;
+}
+
+#dailydouble-window input{
+	width: 33%;
+	font-size: 1.2em;
+	min-width: 75px;
+}
+
+#submit-wager{
+	display: block;
+	margin-top: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 10px;
+	background-color: #ff9900;
+	font-size: 1.5em;
+	padding: 0.3em;
+	cursor: pointer;
+	color: white;
+
+}
+
+#submit-wager:hover{
+	background-color: #097054
+}
+
+#dailydouble-window.flipped{
+	visibility: visible;
+}
+
+#dailydouble-window .front{
+	background-color: #d9d9d9;
+}
+
+#dailydouble-window .back{
+	background-color: #0077b3;
+}
+
+
+
+
 
 #clue-window.open{
 	top: 0;
