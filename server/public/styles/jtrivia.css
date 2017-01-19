@@ -26,6 +26,7 @@ ul{
 }
 
 
+
 .button-standout{
 	color: white;
 	background-color: #ff3b3f;
@@ -91,9 +92,67 @@ ul{
 
  #content{
 	max-width:1024px;
+	margin: 0 auto;
 	text-align: center;
-	}
+	/*MIN DIMENSIONS*/
+}
 
+#game-message{
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 100px;
+	width: 45%;
+	min-height: 100px;
+	display: none;
+	margin: 0 auto;
+	background-color: #00032D;
+	border: 2px solid black;
+	border-radius: 10px;
+	box-shadow: 0 0 5px;
+	color: white;
+	padding: 5px;
+	box-sizing: border-box;
+	z-index: 9999;
+}
+
+
+#game-message.open{
+	animation: slide-down 0.2s linear;
+	display: block;
+}
+
+
+#game-message div:nth-child(1){
+	font-size: 1.7em;
+	padding-left: 15px;
+	padding-right: 15px;
+	border-bottom: 1px solid red;
+	margin-bottom: 25px;
+	padding-bottom: 8px;
+	display: inline-block;
+}
+
+#game-message div:nth-child(2){
+	font-size: 1.3em;
+}
+
+
+#spinner{
+	position: absolute;
+	display: none;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	background-color: gray;
+	opacity: 0.5;
+	height: 100%;
+	width: 100%;
+}
+
+#spinner.visible{
+	display: block;
+}
 
 #top{
 	height: 100px;
@@ -147,6 +206,7 @@ ul{
 #board-wrapper{
 	position: relative;
 	text-align: center;
+	overflow: hidden;
 }
 
 #clue-window{
@@ -491,3 +551,12 @@ ul{
 	}
 }
 
+@keyframes slide-down{
+	0%{
+		transform: translateY(-100%);
+	}
+
+	100%{
+		transform: translateY(0%);
+	}
+}

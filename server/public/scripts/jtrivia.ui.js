@@ -6,6 +6,8 @@
 			startNewGame: [
 				document.getElementById('play') //menu, playAgain
 			],
+			gameMessage: document.getElementById('game-message'),
+			spinner: document.getElementById('spinner'),
 			score: document.getElementById('score'),
 			board: document.getElementById('board'),
 			dailyDoubleWindow: document.getElementById('dailydouble-window'),
@@ -21,10 +23,12 @@
 			closeClueBtn: document.getElementById('close-clue')
 		};	
 
-		this.state = {
-			boardDisabled:false,
-			answerRevealed: false
-		};
+		 this.state = {
+		 	boardDisabled:false,
+		 	answerRevealed: false
+		 };
+		
+
 		
 		this._previousScrollPosition = null;
 
@@ -35,6 +39,27 @@
 
 		this.attachEventListeners();
 	}
+
+
+	JTriviaUI.prototype.showGameMessage = function(title, msg){
+		console.log("UI SHOWING GAME MESSAGE!");
+		var messageEls = this.dom.gameMessage.querySelectorAll('div');
+		console.log(messageEls.length);
+		messageEls[0].textContent = title;
+		messageEls[1].textContent = msg;
+		this.dom.gameMessage.classList.add('open');
+		this.showSpinner();
+	};
+
+
+	JTriviaUI.prototype.showSpinner = function(){
+		this.dom.spinner.classList.add('visible');
+	};
+
+
+	JTriviaUI.prototype.hideSpinner = function(){
+		this.dom.spinner.classList.remove('visible');
+	};
 
 
 	JTriviaUI.prototype.updateScore = function(score){
