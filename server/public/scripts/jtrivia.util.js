@@ -8,7 +8,7 @@
 			arr[counter] = arr[index];
 			arr[index] = temp;
 		}
-	};
+	}
 
 	function numericOnly(event){
 		var k = event.keyCode;
@@ -22,6 +22,13 @@
 			event.preventDefault();
 		}
 	}
+	
+	function clearTimeout(timeout){
+		if (timeout != null){
+			window.clearTimeout(timeout);
+			timeout = null;
+		}
+	}
 
 	function toArray(collection){
 		return Array.prototype.slice.call(collection);
@@ -31,6 +38,7 @@
 	var util = {
 		shuffleArray: shuffleArray,
 		numericOnly: numericOnly,
+		clearTimeout: clearTimeout,
 		toArray: toArray
 	};
 

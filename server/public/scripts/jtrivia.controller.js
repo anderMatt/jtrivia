@@ -3,7 +3,7 @@
 	function JTriviaController(model, ui){
 		this.model = model;
 		this.ui = ui;
-
+		
 		this.attachListeners();
 	}	
 
@@ -12,8 +12,20 @@
 		if(startNewGame){
 			this.model.reset();
 		}
+
+		if(this.model.isRequestInProgress()){
+			return;
+		}
+		
+		var spinnerTimeout = window.setTimeout(() => {
+			this.ui.showGameMessage("Loading...", null);
+			this.ui.showSpinner();
+		}, 1600);
+		
 		this.model.loadRound()
 			.then(game => {
+				JTrivia.util.clearTimeout(spinnerTimeout);
+
 				this.ui.renderBoard(game);
 			});
 			//TODO: .catch ui.msg(err)
@@ -38,7 +50,6 @@
 
 
 	JTriviaController.prototype._onWagerSubmission = function(wager){
-		// var err = this.model.validateWager(wager);
 		var err = this.model.makeWager(wager);
 		if(err){
 			this.ui.dailyDoubleWagerError(err);
