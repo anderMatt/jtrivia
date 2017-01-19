@@ -22,7 +22,7 @@
 		};	
 
 		this.state = {
-			boardDisabled: true,
+			boardDisabled:false,
 			answerRevealed: false
 		};
 		
@@ -36,8 +36,20 @@
 		this.attachEventListeners();
 	}
 
+
+	JTriviaUI.prototype.updateScore = function(score){
+		this.dom.score.textContent = score;
+		if(score < 0){
+			this.dom.score.classList.add('negative');
+		}
+		else {
+			this.dom.score.classList.remove('negative');
+		}
+
+	};
+
 	JTriviaUI.prototype.handleBoardClick = function(event){
-		if(this.state.windowOpen){
+		if(this.state.boardDisabled){
 			return;
 		}
 		var selectedClue = event.target;
@@ -71,6 +83,8 @@
 	};
 
 	JTriviaUI.prototype.renderBoard = function(game){
+		this.dom.score.classList.remove('hidden');
+
 		var html = Handlebars.templates.board({game: game});
 		this.dom.board.innerHTML = html;
 		this._fadeInClueValues().then(()=> {
@@ -93,7 +107,7 @@
 	};
 
 	JTriviaUI.prototype.openClue = function(clue){
-		this.state.windowOpen = true;
+		this.state.boardDisabled = true;
 		this._populateClueWindow(clue);
 		this.dom.clueWindow.classList.add('open');
 		this._scrollWithClueWindow();
@@ -133,7 +147,7 @@
 
 	JTriviaUI.prototype.getDailyDoubleWager = function(){
 		//TODO: reset.
-		this.state.windowOpen = true;
+		this.state.boardDisabled = true;
 		this.dom.board.classList.add('faded');
 		this.dom.dailyDoubleWindow.classList.add('flipped');
 		this.dom.dailyDoubleWager.focus();
@@ -221,7 +235,7 @@
 
 
 	JTriviaUI.prototype.closeWindow = function(winName){
-		this.state.windowOpen = false;
+		this.state.boardDisabled = false;
 		this.dom.board.classList.remove('faded');
 
 		switch(winName){

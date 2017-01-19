@@ -34,18 +34,17 @@
 		var clue = this.model.getActiveClue();
 		this.model.startClueTimer(1000);
 		this.ui.openClue(clue);
-	}
+	};
 
 
 	JTriviaController.prototype._onWagerSubmission = function(wager){
-		var err = this.model.validateWager(wager);
+		// var err = this.model.validateWager(wager);
+		var err = this.model.makeWager(wager);
 		if(err){
 			this.ui.dailyDoubleWagerError(err);
-			return;
 		} else {
 			this.ui.closeWindow('dailydouble wager');
 			this._openActiveClue();
-
 		}
 	};
 
@@ -65,6 +64,10 @@
 
 		this.model.getTimer().onTimeout.attach(function(){
 			self._onAnswerSubmission(null); //'submitting' a null answer means the timer ran out.
+		});
+
+		this.model.scoreChanged.attach(function(score){
+			self.ui.updateScore(score);
 		});
 
 		this.ui.startNewGame.attach(function(){

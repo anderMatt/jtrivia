@@ -89,11 +89,10 @@ ul{
 	color: #ff3b3f;
 }
 
-/*
  #content{
 	max-width:1024px;
+	text-align: center;
 	}
-	*/
 
 
 #top{
@@ -125,6 +124,23 @@ ul{
 	margin-top: 1em;
 	font-size: 2em;
 	width: 4em;
+}
+
+
+#score{
+	font-size: 1.5em;
+	color: #097054;
+	display: inline-block;
+	margin: 10px auto 10px auto;
+}
+
+#score:before{
+	content: "Your score: $ ";
+	color: black;
+}
+
+#score.negative{
+	color: #ff3b3f;
 }
 
 
@@ -198,9 +214,8 @@ ul{
 
 #dailydouble-err{
 	font-size: 1em;
-	height: 2em;
 	width: 80%;
-	line-height: 2em;
+	/* line-height: 2em; */
 	display: block;
 	background-color: white;
 	padding: 2px;
@@ -231,7 +246,7 @@ ul{
 }
 
 #submit-wager:hover{
-	background-color: #097054
+	background-color: #097054;
 }
 
 #dailydouble-window.flipped{

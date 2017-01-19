@@ -3,7 +3,11 @@
 		this.round = null;
 		this.currentRoundName = null;
 		this.activeClue = null;
-		this.score = 0;
+		this._score = 0;
+		this.totalClueAttempts = 0;
+		this.cluesAnsweredCorrectly;
+
+		this.scoreChanged = new JTrivia.Event(this);
 
 		this.timer = new JTrivia.Timer(5000, 1000); //5 second duration, 1 sec interval.
 		this.timerTimeout = null;
@@ -22,6 +26,17 @@
 		};
 
 	}
+
+	JTriviaModel.prototype = {
+		set score(newScore){
+			this._score = newScore;
+			this.scoreChanged.notify(this._score);
+		},
+
+		get score(){
+			return this._score;
+		}
+	};
 
 
 	JTriviaModel.prototype.reset = function(){
@@ -106,7 +121,22 @@
 	};
 
 
-	JTriviaModel.prototype.validateWager = function(wager){
+	JTriviaModel.prototype.getActiveClue = function(){
+		return this.activeClue;
+	};
+
+
+	JTriviaModel.prototype.makeWager = function(wager){
+		var err = this._validateWager(wager);
+		if(err){
+			return err;
+		}
+		this._setWager(wager);
+		return null; //valid wager.
+	};
+
+
+	JTriviaModel.prototype._validateWager = function(wager){
 		if(wager < 5){
 			return "Wager must be at least five dollars."	
 		}
@@ -120,7 +150,28 @@
 			return `The maximum wager is ${maxValidWager}`;
 		} else {
 		return null; //valid wager.	
-	}
+		}
+	};
+
+
+	JTriviaModel.prototype._setWager = function(wager){
+		this.activeClue.value = wager;
+	};
+
+
+	JTriviaModel.prototype._updateStats = function(outcome){
+		var deltaScore;
+		this.clueAttempts += 1;
+
+		if(outcome === "correct"){
+			deltaScore = this.activeClue.value;
+			this.cluesAnsweredCorrectly += 1;
+		}
+		else {
+			deltaScore = -1 * this.activeClue.value;
+		}
+
+		this.score = this.score + deltaScore;
 	};
 
 
@@ -138,10 +189,10 @@
 			outcome = (submittedAnswer === this.activeClue.answer ?
 				'correct':
 				'incorrect'
-			)
+			);
 		}
 
-		//update stats, passing outcome.
+		this._updateStats(outcome);
 
 		return {
 			outcome: outcome,
