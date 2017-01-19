@@ -24,6 +24,7 @@
 		};	
 
 		 this.state = {
+			loadingSpinner: false,
 		 	boardDisabled:false,
 		 	answerRevealed: false
 		 };
@@ -42,9 +43,7 @@
 
 
 	JTriviaUI.prototype.showGameMessage = function(title, msg){
-		console.log("UI SHOWING GAME MESSAGE!");
 		var messageEls = this.dom.gameMessage.querySelectorAll('div');
-		console.log(messageEls.length);
 		messageEls[0].textContent = title;
 		messageEls[1].textContent = msg;
 		this.dom.gameMessage.classList.add('open');
@@ -53,11 +52,13 @@
 
 
 	JTriviaUI.prototype.showSpinner = function(){
+		this.state.loadingSpinner = true;
 		this.dom.spinner.classList.add('visible');
 	};
 
 
 	JTriviaUI.prototype.hideSpinner = function(){
+		this.state.loadingSpinner = false;
 		this.dom.spinner.classList.remove('visible');
 	};
 
@@ -108,6 +109,10 @@
 	};
 
 	JTriviaUI.prototype.renderBoard = function(game){
+		if(this.state.loadingSpinner){
+			this.hideSpinner();
+		}
+
 		this.dom.score.classList.remove('hidden');
 
 		var html = Handlebars.templates.board({game: game});

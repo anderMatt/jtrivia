@@ -196,6 +196,10 @@
 
 	};
 
+	JTriviaModel.prototype.isRequestInProgress = function(){
+		return this.gameBuilder.roundRequestInProgress;	
+	};
+
 	JTriviaModel.prototype.loadRound = function(){
 		var self = this;
 		this.roundName = this._determineNextGameRound(); //j, dj, or fj
