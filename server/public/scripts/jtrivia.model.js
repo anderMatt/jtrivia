@@ -1,28 +1,23 @@
 (function(window){
 	function JTriviaModel(){
+
+		this.gameBuilder = new JTrivia.JTriviaGameBuilder();
 		this.round = null;
-		this.currentRoundName = null;
+		this.roundName = null;
 		this.activeClue = null;
 		this._score = 0;
 		this.totalClueAttempts = 0;
 		this.cluesAnsweredCorrectly;
+		this.roundLoadingInProgress = false;
 
 		this.scoreChanged = new JTrivia.Event(this);
 
 		this.timer = new JTrivia.Timer(5000, 1000); //5 second duration, 1 sec interval.
 		this.timerTimeout = null;
 
-		this.gameConfig = {
-			"jeopardy": {
-				clueValues: [200, 400, 600, 800, 1000],
-				numDailyDoubles: 1,
-				maxDailyDoubleWager: 1000 //max is current score ('true daily double') OR max clue value, whichever is greater.
-			},
-			"double jeopardy": {
-				clueValues: [400, 800, 1200, 1600, 2000],
-				numDailyDoubles: 2,
-				maxDailyDoubleWager: 2000
-			}
+		this.maxDailyDoubleWagers = {
+			"jeopardy": 1000,
+			"double jeopardy": 2000
 		};
 
 	}
@@ -42,7 +37,7 @@
 	JTriviaModel.prototype.reset = function(){
 		this.round = null;
 		this.activeClue = null;
-		this.currentRoundName = null;
+		this.roundName = null;
 		this.score = 0;
 	};
 
@@ -100,7 +95,7 @@
 	};
 
 	JTriviaModel.prototype._determineNextGameRound = function(){
-		switch(this.currentRoundName){
+		switch(this.roundName){
 			case null:
 				return 'jeopardy';
 			case 'jeopardy':
@@ -141,9 +136,9 @@
 			return "Wager must be at least five dollars."	
 		}
 
-		var defaultMaxWager = this.gameConfig[this.currentRoundName].maxDailyDoubleWager;
-		var maxValidWager = ( (this.currentScore >= defaultMaxWager) ?
-			this.currentScore :
+		var defaultMaxWager = this.maxDailyDoubleWagers[this.roundName];
+		var maxValidWager = ( (this.score >= defaultMaxWager) ?
+			this.score :
 			defaultMaxWager);
 
 		if(wager > maxValidWager){
@@ -203,46 +198,14 @@
 
 	JTriviaModel.prototype.loadRound = function(){
 		var self = this;
-		this.currentRoundName = this._determineNextGameRound(); //j, dj, or fj
+		this.roundName = this._determineNextGameRound(); //j, dj, or fj
 
-		return this._getGameRound()
+		return this.gameBuilder.buildRound(this.roundName)
 			.then(round => {
-				var clueValues = this.gameConfig[this.currentRoundName].clueValues;
-				var numDailyDoubles = this.gameConfig[this.currentRoundName].numDailyDoubles;
-				
-				//add clue values and daily doubles to the round.
-				self._assignClueValues(round, clueValues);
-				self._assignDailyDoubles(round, numDailyDoubles);
-
 				self.round = round;
 				return self.round;
-			}); //where to catch?
-	};
+			});
 
-	JTriviaModel.prototype._getGameRound = function(){
-		var roundPromise = function(resolve, reject){
-			var req = new XMLHttpRequest();
-			req.open('GET', '/game');
-			req.onload = function(){
-				if(this.status == 200){
-					var game = JSON.parse(req.response);
-					resolve(game);
-
-				}
-				else {
-					reject({
-						status: this.status,
-						statusText: req.statusText
-					});
-				}
-			}
-
-			//TODO: req.onerror
-
-			req.send();
-		}
-
-		return new Promise(roundPromise);
 	};
 
 	
