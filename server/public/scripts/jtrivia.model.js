@@ -174,14 +174,12 @@
 
 	};
 
-<<<<<<< HEAD
 
 	JTriviaModel.prototype.roundOver = function(){
 		return this.cluesRemaining === 0;	
 	}
 
-=======
->>>>>>> b60c582461b4e1a14c4d5499835df58222ca0d72
+
 	JTriviaModel.prototype.isRequestInProgress = function(){
 		return this.gameBuilder.roundRequestInProgress;	
 	};
