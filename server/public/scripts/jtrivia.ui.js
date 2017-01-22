@@ -24,7 +24,10 @@
 		};	
 
 		 this.state = {
+<<<<<<< HEAD
 			gameMessage: false,
+=======
+>>>>>>> b60c582461b4e1a14c4d5499835df58222ca0d72
 			loadingSpinner: false,
 		 	boardDisabled:false,
 		 	answerRevealed: false

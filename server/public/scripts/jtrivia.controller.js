@@ -15,7 +15,6 @@
 		}
 
 		if(this.model.isRequestInProgress()){
-			console.log('req is in progress');
 			return;
 		}
 		
@@ -23,8 +22,6 @@
 			this.ui.showGameMessage("Loading...", null);
 			this.ui.showSpinner();
 		}, 1600);
-
-
 		this.model.loadRound()
 			.then(game => {
 				JTrivia.util.clearTimeout(spinnerTimeout);
