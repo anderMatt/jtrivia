@@ -254,6 +254,7 @@
 		feedbackMessage.classList.add('visible');
 		//TODO: show continue btn.
 		this.dom.clueWindowTimer.classList.add('none');
+		this.dom.closeClueBtn.classList.add('show');
 	};
 
 
@@ -272,6 +273,7 @@
 	
 		//show the timer for the next clue
 		this.dom.clueWindowTimer.classList.remove('none');
+		this.dom.closeClueBtn.classList.remove('show');
 		return;
 	};
 

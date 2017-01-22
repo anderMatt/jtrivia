@@ -496,6 +496,11 @@ ul{
 #close-clue{
 	font-size: 1.6em;
 	margin-top: 25px;
+	visibility: hidden;
+}
+
+#close-clue.show{
+	visibility: visible;
 }
 
 
