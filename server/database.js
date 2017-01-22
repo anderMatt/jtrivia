@@ -58,7 +58,7 @@ function constructGame(){
 		state.db.collection('categories')
 			.aggregate([
 				{"$sample": {"size": 6}},
-				{"$project": {_id:0}}
+				{"$project": {_id:0, "clues":1, "category":1}}
 			], function(err, categories){
 				if(err) reject(err);
 				addFalseAnswers(categories);

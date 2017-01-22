@@ -1,7 +1,7 @@
 var express = require('express');
 var path = require('path');
 var db = require('./database')
-var DATABASE_URL = "mongodb://127.0.0.1:27017/jeopardy"  //TODO: envar.
+var DATABASE_URL = process.env.MONGO_URI;
 
 var app = express()
 app.set('port', process.env.PORT || 3000)
