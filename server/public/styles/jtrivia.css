@@ -137,17 +137,37 @@ ul{
 	font-size: 1.3em;
 }
 
-
 #spinner{
 	position: absolute;
+	height: 100%;
+	width: 100%;
 	display: none;
+	z-index: 1;
+}
+
+#spinner > img{
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
 	left: 0;
 	right: 0;
 	margin: 0 auto;
-	background-color: gray;
+	height: 33%;
+	width: 33%;
+}
+
+#spinner:before{
+	z-index: -1;
+	content: '';
+	position: absolute;
 	opacity: 0.5;
-	height: 100%;
 	width: 100%;
+	height: 100%;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	display: block;
+	background-color: gray;
 }
 
 #spinner.visible{

@@ -24,12 +24,11 @@
 		};	
 
 		 this.state = {
+			gameMessage: false,
 			loadingSpinner: false,
 		 	boardDisabled:false,
 		 	answerRevealed: false
 		 };
-		
-
 		
 		this._previousScrollPosition = null;
 
@@ -37,6 +36,7 @@
 		this.clueSelected = new JTrivia.Event(this);
 		this.wagerSubmitted = new JTrivia.Event(this);
 		this.answerSubmitted = new JTrivia.Event(this);
+		this.finishedWithClue = new JTrivia.Event(this);
 
 		this.attachEventListeners();
 	}
@@ -44,12 +44,21 @@
 
 	JTriviaUI.prototype.showGameMessage = function(title, msg){
 		var messageEls = this.dom.gameMessage.querySelectorAll('div');
-		messageEls[0].textContent = title;
-		messageEls[1].textContent = msg;
-		this.dom.gameMessage.classList.add('open');
-		this.showSpinner();
+		var titleEl = messageEls[0];
+		var msgEl = messageEls[1];
+
+		if(!this.state.gameMessage){ //Not replacing a current message, need to show element first.
+			this.state.gameMessage = true;
+			this.dom.gameMessage.classList.add('open');
+		}
+		titleEl.textContent = title;
+		msgEl.textContent = msg;
 	};
 
+	JTriviaUI.prototype.hideGameMessage = function(){
+		this.state.gameMessage = false;
+		this.dom.gameMessage.classList.remove('open');
+	};
 
 	JTriviaUI.prototype.showSpinner = function(){
 		this.state.loadingSpinner = true;
@@ -111,6 +120,9 @@
 	JTriviaUI.prototype.renderBoard = function(game){
 		if(this.state.loadingSpinner){
 			this.hideSpinner();
+		}
+		if(this.state.gameMessage){
+			this.hideGameMessage();
 		}
 
 		this.dom.score.classList.remove('hidden');
@@ -273,6 +285,8 @@
 				this._resetClueWindow();
 				this.dom.clueWindow.classList.remove('open');
 				this._scrollWithClueWindow();
+				this.finishedWithClue.notify();
+				//notify finished with clue.
 				break;
 
 			case "dailydouble wager":

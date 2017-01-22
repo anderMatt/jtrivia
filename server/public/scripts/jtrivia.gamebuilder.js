@@ -24,7 +24,7 @@
 			var req = new XMLHttpRequest();
 			req.open('GET', self.url);
 			req.onload = function(){
-				self.roundLoadingInProgress = false;
+				self.roundRequestInProgress = false;
 				if(this.status === 200){
 					var round = JSON.parse(req.response);
 					resolve(round);

@@ -6,6 +6,7 @@
 		this.roundName = null;
 		this.activeClue = null;
 		this._score = 0;
+		this.cluesRemaining = 0;
 		this.totalClueAttempts = 0;
 		this.cluesAnsweredCorrectly;
 		this.roundLoadingInProgress = false;
@@ -69,32 +70,7 @@
 	};
 
 
-	JTriviaModel.prototype._assignClueValues = function(roundObj, clueValues){
-
-		Object.keys(roundObj).forEach(category => {
-			roundObj[category].forEach( (clue, clueIndex) => {
-				clue.value = clueValues[clueIndex];
-			});
-		});
-		//TODO: set daily doubles.
-	};
-
-	JTriviaModel.prototype._assignDailyDoubles = function(roundObj, numDailyDoubles){
-		
-		var categories = Object.keys(roundObj);
-		var clueIndices = [0, 1, 2, 3, 4];
-
-		JTrivia.util.shuffleArray(categories);
-		JTrivia.util.shuffleArray(clueIndices);
-
-		for(var i=0, max=numDailyDoubles; i<max; i++){
-			let randomCategory = categories[i];
-			let randomClue = clueIndices[i];
-			roundObj[randomCategory][randomClue].dailyDouble = true;
-		}
-	};
-
-	JTriviaModel.prototype._determineNextGameRound = function(){
+	JTriviaModel.prototype.determineNextGameRound = function(){
 		switch(this.roundName){
 			case null:
 				return 'jeopardy';
@@ -172,12 +148,14 @@
 
 	JTriviaModel.prototype.answerClue = function(submittedAnswer){
 		//returns: {outcome, correctAnswer}	
-		this._stopClueTimer();
-
 		var outcome,
 			correctAnswer;
 
-		if(submittedAnswer === null){
+		this.cluesRemaining -= 1;
+		console.log('after decrement: ' + this.cluesRemaining);
+		this._stopClueTimer();
+
+		if(submittedAnswer === null){ //TODO: check if time is running, instead?
 			outcome = "timeout";
 		}
 		else{
@@ -196,17 +174,23 @@
 
 	};
 
+
+	JTriviaModel.prototype.roundOver = function(){
+		return this.cluesRemaining === 0;	
+	}
+
 	JTriviaModel.prototype.isRequestInProgress = function(){
 		return this.gameBuilder.roundRequestInProgress;	
 	};
 
 	JTriviaModel.prototype.loadRound = function(){
 		var self = this;
-		this.roundName = this._determineNextGameRound(); //j, dj, or fj
+		this.roundName = this.determineNextGameRound(); //j, dj, or fj
 
 		return this.gameBuilder.buildRound(this.roundName)
 			.then(round => {
 				self.round = round;
+				self.cluesRemaining = 30; //TODO: length.
 				return self.round;
 			});
 

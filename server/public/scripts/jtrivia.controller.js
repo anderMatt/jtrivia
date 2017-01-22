@@ -9,11 +9,13 @@
 
 
 	JTriviaController.prototype.loadRound = function(startNewGame){
+		console.log("LOADING ROUND");
 		if(startNewGame){
 			this.model.reset();
 		}
 
 		if(this.model.isRequestInProgress()){
+			console.log('req is in progress');
 			return;
 		}
 		
@@ -21,14 +23,15 @@
 			this.ui.showGameMessage("Loading...", null);
 			this.ui.showSpinner();
 		}, 1600);
-		
+
+
 		this.model.loadRound()
 			.then(game => {
 				JTrivia.util.clearTimeout(spinnerTimeout);
 
 				this.ui.renderBoard(game);
 			});
-			//TODO: .catch ui.msg(err)
+		//	//TODO: .catch ui.msg(err)
 	};
 
 
@@ -60,6 +63,14 @@
 	};
 
 
+	JTriviaController.prototype._onRoundEnd = function(){
+		var nextRoundName = this.model.determineNextGameRound();
+		this.ui.showGameMessage("Round Over!", `Prepare for ${nextRoundName.toUpperCase()}...`);
+		window.setTimeout(()=>{
+			this.loadRound();
+		}, 1500);
+	};
+
 	JTriviaController.prototype._onAnswerSubmission = function(submittedAnswer){
 		//null answer = timeout.
 		var answerOutcome = this.model.answerClue(submittedAnswer);
@@ -67,11 +78,8 @@
 	};
 
 
-
-
 	JTriviaController.prototype.attachListeners = function(){
 		var self = this;
-
 
 		this.model.getTimer().onTimeout.attach(function(){
 			self._onAnswerSubmission(null); //'submitting' a null answer means the timer ran out.
@@ -96,7 +104,14 @@
 		this.ui.answerSubmitted.attach(function(submittedAnswer){
 			self._onAnswerSubmission(submittedAnswer);
 		});
+
+		this.ui.finishedWithClue.attach(function(){
+			if(self.model.roundOver()){
+				self._onRoundEnd();
+			}
+		});
 	};
+	
 	//export to window
 	window.JTrivia = window.JTrivia || {};
 	window.JTrivia.JTriviaController = JTriviaController;
