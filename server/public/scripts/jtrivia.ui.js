@@ -1,5 +1,13 @@
 //dependency: JTrivia.util, JTrivia.event
 
+//detect touch devices.
+function addTouchClass(){
+	document.documentElement.classList.add('can-touch');
+	document.documentElement.removeEventListener('touchstart', addTouchClass, false);
+}
+
+document.documentElement.addEventListener('touchstart', addTouchClass, false);
+
 (function(window){
 	function JTriviaUI(){
 		this.dom = {

@@ -331,7 +331,7 @@ ul{
 }
 
 html.can-touch #submit-wager:hover{
-	background-color: initial
+	background-color: #ff9900;
 }
 
 #submit-wager:active{
@@ -349,10 +349,6 @@ html.can-touch #submit-wager:hover{
 #dailydouble-window .back{
 	background-color: #0077b3;
 }
-
-
-
-
 
 #clue-window.open{
 	top: 0;
@@ -399,7 +395,7 @@ html.can-touch #submit-wager:hover{
 	margin-top: 25px;
 }
 
-#clue-window-answers > li:hover,
+#clue-window-answers > li:hover:not(.correct):not(.incorrect),
 	#clue-window-answers > li:active{
 	/* height: 70px; */
 	background-color: #ff3b3f;
@@ -407,7 +403,8 @@ html.can-touch #submit-wager:hover{
 }
 
 html.can-touch #clue-window-answers > li:hover{
-	
+	background-color: inherit;
+	transform: scale(1);
 }
 
 #clue-window-answers > li.correct{
