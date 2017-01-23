@@ -9,6 +9,7 @@ ul{
 	padding-left: 0;
 }
 
+
 .error{
 	color: #ff3b3f;
 }
@@ -329,6 +330,14 @@ ul{
 	background-color: #097054;
 }
 
+html.can-touch #submit-wager:hover{
+	background-color: initial
+}
+
+#submit-wager:active{
+	background-color: #097054;
+}
+
 #dailydouble-window.flipped{
 	visibility: visible;
 }
@@ -390,9 +399,15 @@ ul{
 	margin-top: 25px;
 }
 
-#clue-window-answers > li:hover{
+#clue-window-answers > li:hover,
+	#clue-window-answers > li:active{
+	/* height: 70px; */
 	background-color: #ff3b3f;
 	transform: scale(1.2);
+}
+
+html.can-touch #clue-window-answers > li:hover{
+	
 }
 
 #clue-window-answers > li.correct{
@@ -519,9 +534,12 @@ ul{
 }
 
 .category{
-	height: 70px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-height: 70px;
 	font-size: 1.4em;
-	line-height: 2.8em;
 	width: 100%;
 	background-color: #00334d;
 	color: white;
