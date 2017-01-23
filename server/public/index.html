@@ -74,6 +74,14 @@
 				</div> <!--end of board -->
 			</div>
 		</div>
+		<script> <!--detect touch devices -->
+			document.addEventListener('touchstart', function addTouchClass(e){
+				alert('adding touch class!');
+				document.documentElement.classList.add('can-touch');
+				document.documentElement.removeEventListener('touchstart', addTouchClass, false);
+			}, false);
+		</script>
+
 		<script src="/scripts/vendor/handlebars.runtime.min.js"></script>
 		<script src="/scripts/precompiled/board.handlebars.js"></script>
 		<script src="/scripts/jtrivia.util.js"></script>
