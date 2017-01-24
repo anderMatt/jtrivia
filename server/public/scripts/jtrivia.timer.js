@@ -37,6 +37,7 @@
 		}
 	}
 
+
 	//export to window.
 	window.JTrivia = window.JTrivia || {};
 	window.JTrivia.Timer = Timer;
