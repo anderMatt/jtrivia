@@ -27,7 +27,6 @@
 
 				this.ui.renderBoard(game);
 			});
-		//	//TODO: .catch ui.msg(err)
 	};
 
 

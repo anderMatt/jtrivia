@@ -6,7 +6,14 @@ var DATABASE_URL = process.env.MONGO_URI;
 var app = express()
 app.set('port', process.env.PORT || 3000)
 app.disable('x-powered-by')
-app.use(express.static(path.join(__dirname, './public')))
+
+//define static directory.
+if(process.env.NODE_ENV == "production"){
+	app.use(express.static(path.join(__dirname, './dist')));
+}
+else{
+	app.use(express.static(path.join(__dirname, './public')))
+}
 
 
 app.get('/game', (req, res) => {

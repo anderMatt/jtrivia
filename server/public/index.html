@@ -3,7 +3,11 @@
 	<head>
 		<title>J!Trivia</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- build:css -->
 		<link rel="stylesheet" href="/styles/jtrivia.css">
+		<!-- endbuild -->
+
 	</head>
 	<body>
 		<div id="content">
@@ -76,8 +80,13 @@
 				<button id="play" class="button-standout">Play</button>
 			</div>
 		</div>
+		
+		<!-- build:vendor -->
+		<script src="/vendor/handlebars.runtime.min.js"></script>
 
-		<script src="/scripts/vendor/handlebars.runtime.min.js"></script>
+		<!-- endbuild -->
+
+		<!-- build:app -->
 		<script src="/scripts/precompiled/board.handlebars.js"></script>
 		<script src="/scripts/precompiled/report.handlebars.js"></script>
 		<script src="/scripts/jtrivia.util.js"></script>
@@ -88,5 +97,7 @@
 		<script src="/scripts/jtrivia.ui.js"></script>
 		<script src="/scripts/jtrivia.controller.js"></script>
 		<script src="/scripts/main.js"></script>
+
+		<!-- endbuild-->
 	</body>
 </html>
