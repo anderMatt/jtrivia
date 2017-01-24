@@ -36,34 +36,36 @@
 				</div>
 
 				<div id="clue-window">
-					<div id="clue-window-category"></div>
-					<div id="clue-window-question"></div>
-					<ul id="clue-window-answers">
-						<li></li>
-						<li></li>
-						<li></li>
-					</ul>
-						<div id="clue-window-timer">
-							<div data-tick="0"></div>
-							<div data-tick="1"></div>
-							<div data-tick="2"></div>
-							<div data-tick="3"></div>
-							<div data-tick="2"></div>
-							<div data-tick="1"></div>
-							<div data-tick="0"></div>
+					<div class="content-centered">
+						<div id="clue-window-category"></div>
+						<div id="clue-window-question"></div>
+						<ul id="clue-window-answers">
+							<li></li>
+							<li></li>
+							<li></li>
+						</ul>
+					</div>
+					<div id="clue-window-timer">
+						<div data-tick="0"></div>
+						<div data-tick="1"></div>
+						<div data-tick="2"></div>
+						<div data-tick="3"></div>
+						<div data-tick="2"></div>
+						<div data-tick="1"></div>
+						<div data-tick="0"></div>
+					</div>
+					<div id="clue-window-feedback">
+						<div data-outcome="correct">
+							<span class="icon check"></span><span>Correct!</span>
 						</div>
-						<div id="clue-window-feedback">
-							<div data-outcome="correct">
-								<span class="icon check"></span><span>Correct!</span>
-							</div>
-							<div data-outcome="incorrect">
-								<span class="icon ex"></span><span>Incorrect!</span>
-							</div>
-							<div data-outcome="timeout">
-								<span class="icon clock"></span><span>Timeout!</span>
-							</div>
+						<div data-outcome="incorrect">
+							<span class="icon ex"></span><span>Incorrect!</span>
 						</div>
-						<button class="button-standout" id="close-clue">Continue</button>
+						<div data-outcome="timeout">
+							<span class="icon clock"></span><span>Timeout!</span>
+						</div>
+					</div>
+					<button class="button-standout" id="close-clue">Continue</button>
 				</div> <!-- end of clue-window -->
 				<div id="board">
 					<div id="intro">
