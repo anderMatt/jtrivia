@@ -58,6 +58,7 @@ ul{
 .flipper{
 	position: relative;
 	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
 	transform-style: preserve-3d;
 	perspective: 1000px;
 	transition: transform 0.6s linear;
@@ -94,9 +95,9 @@ ul{
 
  #content{
 	max-width:1024px;
+	min-width: 300px;
 	margin: 0 auto;
 	text-align: center;
-	/*MIN DIMENSIONS*/
 }
 
 #game-message{
@@ -177,7 +178,7 @@ ul{
 }
 
 #top{
-	height: 100px;
+	height: 75px;
 	background-color: white;
 	border-bottom: 1px solid black;
 }
@@ -228,7 +229,9 @@ ul{
 #board-wrapper{
 	position: relative;
 	text-align: center;
-	overflow: hidden;
+	/* overflow: hidden; */
+	overflow: visible;
+	border:1px solid pink;
 }
 
 #clue-window{
@@ -248,7 +251,7 @@ ul{
 	top: 50%;
 	left: 0;
 	right: 0;
-	margin-top: -20%;
+	margin-top: -15%;
 	margin-left: auto;
 	margin-right: auto;
 	width: 40%;
@@ -350,6 +353,11 @@ html.can-touch #submit-wager:hover{
 	background-color: #097054;
 }
 
+#clue-window .content-centered{
+	width: 50%;
+	min-width: 300px;
+	margin: 0 auto;
+}
 
 
 #clue-window.open{
@@ -376,15 +384,10 @@ html.can-touch #submit-wager:hover{
 #clue-window-question{
 	font-size: 1.2em;
 	color: white;
-	min-width: 300px; /*TODO: not needed? */
-	width: 50%;
-	margin: 0 auto;
 }
 
 #clue-window-answers{
 	margin: 40px auto 0 auto;
-	width: 50%;
-	min-width: 300px;
 }
 
 #clue-window-answers > li{
@@ -399,7 +402,6 @@ html.can-touch #submit-wager:hover{
 
 #clue-window-answers > li:hover:not(.correct):not(.incorrect),
 	#clue-window-answers > li:active{
-	/* height: 70px; */
 	background-color: #ff3b3f;
 	transform: scale(1.2);
 }
@@ -433,7 +435,6 @@ html.can-touch #clue-window-answers > li:hover{
 }
 
 #clue-window.open #clue-window-timer{
-	/* display:block; */
 	display: flex;
 	justify-content: space-between;
 }
@@ -523,17 +524,16 @@ html.can-touch #clue-window-answers > li:hover{
 
 
 #board{
-	text-align: center;
-	border: 1px solid blue;
 	box-sizing: border-box;
 	width: 100%;
+	overflow: auto;
 }
 
 #board > .column{
 	width: 100%;
 	box-sizing: border-box;
 	border-bottom: 2px solid black;
-	overflow: auto;
+	overflow: hidden;
 }
 
 .category{
@@ -562,6 +562,35 @@ html.can-touch #clue-window-answers > li:hover{
 	border-right: 1px solid black;
 	border-bottom: 1px solid black;
 	box-sizing: border-box;
+}
+
+
+@media screen and (min-width: 650px){
+	#board >.column{
+		width: 16.666666666667%;
+		float: left;
+		border: 1px solid  black;
+	}
+
+	.category{
+		font-size: 1.1em;
+		height: 85px;
+	}
+
+	.clue{
+		display: block;
+		width: 100%;
+		float: none;
+		border-left: none;
+		border-right: none;
+		height: 85px;
+	}
+
+	#clue-window.open{
+		height: auto;
+		min-height: 600px;
+		padding-bottom: 45px;
+	}
 }
 
 .clue:hover{
