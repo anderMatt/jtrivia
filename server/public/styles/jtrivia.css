@@ -9,6 +9,9 @@ ul{
 	padding-left: 0;
 }
 
+.dollar:before{
+	content: "$";
+}
 
 .error{
 	color: #ff3b3f;
@@ -95,7 +98,7 @@ ul{
 
  #content{
 	max-width:1024px;
-	min-width: 300px;
+	min-width: 350px;
 	margin: 0 auto;
 	text-align: center;
 }
@@ -202,10 +205,12 @@ ul{
 }
 
 
-#intro > .button-standout{
+#play{
 	margin-top: 1em;
 	font-size: 2em;
 	width: 4em;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 
@@ -574,7 +579,7 @@ html.can-touch #clue-window-answers > li:hover{
 
 	.category{
 		font-size: 1.1em;
-		height: 85px;
+		height: 100px;
 	}
 
 	.clue{
@@ -583,7 +588,9 @@ html.can-touch #clue-window-answers > li:hover{
 		float: none;
 		border-left: none;
 		border-right: none;
-		height: 85px;
+		height: 100px;
+		font-size: 1.4em;
+		line-height: 2.8em;
 	}
 
 	#clue-window.open{
@@ -612,6 +619,32 @@ html.can-touch #clue-window-answers > li:hover{
 	visibility: hidden;
 }
 
+
+.report{
+	background-color: #00334d;
+	font-size: 1.8em;
+	color: white;
+	max-width: 600px;
+	min-height: 350px;
+	margin: 50px auto 0 auto;
+}
+
+.report div:first-child{
+	font-size: 1.6em;
+	border-bottom: 1px solid white;
+	padding-bottom: 10px;
+	width: 80%;
+	margin: 0 auto;
+}
+
+.report span{
+	width: 40%;
+	display: inline-block;
+}
+
+.report span:nth-child(2){
+	margin-top: 2em;
+}
 
 @keyframes timer-active{
 	0%{

@@ -11,9 +11,7 @@ document.documentElement.addEventListener('touchstart', addTouchClass, false);
 (function(window){
 	function JTriviaUI(){
 		this.dom = {
-			startNewGame: [
-				document.getElementById('play') //menu, playAgain
-			],
+			startNewGame: document.getElementById('play'), //menu, playAgain
 			gameMessage: document.getElementById('game-message'),
 			spinner: document.getElementById('spinner'),
 			score: document.getElementById('score'),
@@ -95,6 +93,7 @@ document.documentElement.addEventListener('touchstart', addTouchClass, false);
 		if(this.state.boardDisabled){
 			return;
 		}
+
 		var selectedClue = event.target;
 		if(!this._isValidClueSelection(selectedClue)){
 			return;
@@ -126,6 +125,8 @@ document.documentElement.addEventListener('touchstart', addTouchClass, false);
 	};
 
 	JTriviaUI.prototype.renderBoard = function(game){
+		this.state.boardDisabled = true;
+
 		if(this.state.loadingSpinner){
 			this.hideSpinner();
 		}
@@ -134,11 +135,12 @@ document.documentElement.addEventListener('touchstart', addTouchClass, false);
 		}
 
 		this.dom.score.classList.remove('hidden');
+		this.dom.startNewGame.style.display = "none";
 
 		var html = Handlebars.templates.board({game: game});
 		this.dom.board.innerHTML = html;
 		this._fadeInClueValues().then(()=> {
-			this.dom.board.addEventListener('click', this.handleBoardClick.bind(this));
+			this.state.boardDisabled = false;
 		});
 	};
 
@@ -301,20 +303,29 @@ document.documentElement.addEventListener('touchstart', addTouchClass, false);
 
 			case "dailydouble wager":
 				this.dom.dailyDoubleWindow.classList.remove('flipped');
+				this.dom.dailyDoubleWager.value = "";
 				//TODO: reset DD wager input, errs.
 				break;
 		}	
 	};
 
 
+	JTriviaUI.prototype.endOfGame = function(data){
+		var html = Handlebars.templates.report({percentCorrect: data.percentCorrect, largestWager: data.largestWager});
+		this.dom.startNewGame.style.display = "block";
+		this.dom.board.innerHTML = html;
+	};
+
+
 	JTriviaUI.prototype.attachEventListeners = function(){
 		//attach listeners; board event is attached in _fadeIn...put it here, but have a flag set to False before game is loaded?	
 		var self = this;
-		this.dom.startNewGame.forEach(el => {
-			el.addEventListener('click', function(){
-				self.startNewGame.notify();
-			});
+
+		this.dom.startNewGame.addEventListener('click', function(){
+			self.startNewGame.notify();
 		});
+
+		this.dom.board.addEventListener('click', this.handleBoardClick.bind(this));
 
 		this.dom.submitWager.addEventListener('click', this.submitWager.bind(this));
 		this.dom.clueWindowAnswers.addEventListener('click', this.submitAnswer.bind(this));
