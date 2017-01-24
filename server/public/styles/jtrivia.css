@@ -57,6 +57,7 @@ ul{
 
 .flipper{
 	position: relative;
+	-webkit-transform-style: preserve-3d;
 	transform-style: preserve-3d;
 	perspective: 1000px;
 	transition: transform 0.6s linear;
@@ -240,7 +241,6 @@ ul{
 	visibility: hidden;
 	overflow: hidden;
 	transition: none; /*so the expanding transition doesn't happen when 'open' class is removed*/
-
 }
 
 #dailydouble-window{
@@ -255,8 +255,8 @@ ul{
 	min-height: 250px;
 	min-width: 250px;
 	color: white;
-	box-shadow: 5px 5px 5px black;
 	z-index: 9999;
+	box-shadow: 5px 5px 5px black;
 	visibility: hidden;
 	transition: all 0.4s linear;
 }
@@ -276,6 +276,18 @@ ul{
 	display: inline-block;
 	font-size: 1.3em;
 	margin-right: 9px;
+}
+
+#dailydouble-window.flipped{
+	visibility: visible;
+}
+
+#dailydouble-window .front{
+	background-color: #d9d9d9;
+}
+
+#dailydouble-window .back{
+	background-color: #0077b3;
 }
 
 #dailydouble-window .input-has-icon{
@@ -338,17 +350,7 @@ html.can-touch #submit-wager:hover{
 	background-color: #097054;
 }
 
-#dailydouble-window.flipped{
-	visibility: visible;
-}
 
-#dailydouble-window .front{
-	background-color: #d9d9d9;
-}
-
-#dailydouble-window .back{
-	background-color: #0077b3;
-}
 
 #clue-window.open{
 	top: 0;
