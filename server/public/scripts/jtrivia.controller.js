@@ -9,7 +9,6 @@
 
 
 	JTriviaController.prototype.loadRound = function(startNewGame){
-		console.log("LOADING ROUND");
 		if(startNewGame){
 			this.model.reset();
 		}
@@ -62,6 +61,12 @@
 
 	JTriviaController.prototype._onRoundEnd = function(){
 		var nextRoundName = this.model.determineNextGameRound();
+		if(nextRoundName === 'game over'){
+			console.log("GAME IS OVER!!!");
+			var data = this.model.getEndOfGameReport();
+			this.ui.endOfGame(data);
+			return;
+		}
 		this.ui.showGameMessage("Round Over!", `Prepare for ${nextRoundName.toUpperCase()}...`);
 		window.setTimeout(()=>{
 			this.loadRound();

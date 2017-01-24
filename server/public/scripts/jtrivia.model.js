@@ -8,7 +8,8 @@
 		this._score = 0;
 		this.cluesRemaining = 0;
 		this.totalClueAttempts = 0;
-		this.cluesAnsweredCorrectly;
+		this.cluesAnsweredCorrectly = 0;
+		this.largestWager = 0;
 		this.roundLoadingInProgress = false;
 
 		this.scoreChanged = new JTrivia.Event(this);
@@ -77,7 +78,8 @@
 			case 'jeopardy':
 				return 'double jeopardy';
 			case 'double jeopardy':
-				return 'final jeopardy'
+				// return 'final jeopardy'
+				return 'game over';
 		}
 	};
 
@@ -127,12 +129,15 @@
 
 	JTriviaModel.prototype._setWager = function(wager){
 		this.activeClue.value = wager;
+		if(wager > this.largestWager){
+			this.largestWager = wager;
+		}
 	};
 
 
 	JTriviaModel.prototype._updateStats = function(outcome){
 		var deltaScore;
-		this.clueAttempts += 1;
+		this.totalClueAttempts += 1;
 
 		if(outcome === "correct"){
 			deltaScore = this.activeClue.value;
@@ -152,7 +157,6 @@
 			correctAnswer;
 
 		this.cluesRemaining -= 1;
-		console.log('after decrement: ' + this.cluesRemaining);
 		this._stopClueTimer();
 
 		if(submittedAnswer === null){ //TODO: check if time is running, instead?
@@ -177,7 +181,18 @@
 
 	JTriviaModel.prototype.roundOver = function(){
 		return this.cluesRemaining === 0;	
-	}
+	};
+
+	JTriviaModel.prototype.getEndOfGameReport = function(){
+		console.log(this.cluesAnsweredCorrectly);
+		console.log(this.totalClueAttempts);
+		var percentCorrect = ((this.cluesAnsweredCorrectly / this.totalClueAttempts)*100).toFixed(2);
+
+		return {
+			percentCorrect: percentCorrect,
+			largestWager: this.largestWager
+		};
+	};
 
 
 	JTriviaModel.prototype.isRequestInProgress = function(){

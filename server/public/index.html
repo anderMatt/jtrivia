@@ -14,7 +14,7 @@
 			<div id="top">
 				<div class="logo">J!Trivia</div>
 			</div>
-			<span id="score" class="hidden">0</span>
+			<span id="score" class="hidden dollar">0</span>
 			<div id="board-wrapper">
 				<div id="spinner">
 					<img src="/assets/spinner-circle.svg">
@@ -71,14 +71,15 @@
 					<div id="intro">
 						<div id="intro-welcome">Welcome to <span class="logo">J!Trivia</div>
 						<div>Now's your chance to prove you could be a Jeopardy champion!</div>
-						<button class="button-standout" id="play">Play</button>
 					</div>
 				</div> <!--end of board -->
+				<button id="play" class="button-standout">Play</button>
 			</div>
 		</div>
 
 		<script src="/scripts/vendor/handlebars.runtime.min.js"></script>
 		<script src="/scripts/precompiled/board.handlebars.js"></script>
+		<script src="/scripts/precompiled/report.handlebars.js"></script>
 		<script src="/scripts/jtrivia.util.js"></script>
 		<script src="/scripts/jtrivia.event.js"></script>
 		<script src="/scripts/jtrivia.timer.js"></script>
