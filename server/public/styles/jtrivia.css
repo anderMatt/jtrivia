@@ -1,7 +1,9 @@
+ @import url('https://fonts.googleapis.com/css?family=Roboto');
+
 body{
 	font-size: 100%; /*browser default; user might have changed it. Set to 16px here instead?? */
-	background-color: #efefef;
-	font-family: 'Open Sans', sans-serif;
+	background-color: #cccccc;
+	font-family: 'Roboto', sans-serif;
 }
 
 ul{
@@ -184,11 +186,14 @@ ul{
 	height: 75px;
 	background-color: white;
 	border-bottom: 1px solid black;
+	line-height: 3em;
 }
 
 #top>.logo{
 	float: left;
 	margin-left: 1em;
+	font-size: 1.5em;
+	line-height: 3em;
 }
 
 #intro{
@@ -197,6 +202,7 @@ ul{
 	margin: 0 auto;
 	max-width: 350px;
 	color: #00334d;
+	background-color: white;
 }
 
 #intro-welcome{
@@ -211,6 +217,7 @@ ul{
 	width: 4em;
 	margin-left: auto;
 	margin-right: auto;
+	margin-bottom: 10px;
 }
 
 
@@ -219,6 +226,8 @@ ul{
 	color: #097054;
 	display: inline-block;
 	margin: 10px auto 10px auto;
+	margin-right: 15px;
+	float: right;
 }
 
 #score:before{
@@ -236,7 +245,9 @@ ul{
 	text-align: center;
 	/* overflow: hidden; */
 	overflow: visible;
-	border:1px solid pink;
+	border: 1px solid gray;
+	box-shadow: 0 0 2px;
+	background-color: white;
 }
 
 #clue-window{

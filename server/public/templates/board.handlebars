@@ -4,11 +4,7 @@
 		{{#each this}}
 		<div class="clue" data-category="{{@../key}}" data-index="{{@index}}">
 			<span class="dollar">
-				{{#if this.dailyDouble}}
-					"DD"
-				{{else}}
 				{{this.value}}
-				{{/if}}
 			</span>
 		</div>
 		{{/each}}

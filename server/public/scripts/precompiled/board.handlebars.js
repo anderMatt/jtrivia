@@ -9,21 +9,15 @@ templates['board'] = template({"1":function(container,depth0,helpers,partials,da
     + ((stack1 = helpers.each.call(alias1,depth0,{"name":"each","hash":{},"fn":container.program(2, data, 0, blockParams, depths),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "	</div>\n";
 },"2":function(container,depth0,helpers,partials,data,blockParams,depths) {
-    var stack1, helper, alias1=container.escapeExpression, alias2=depth0 != null ? depth0 : {};
+    var helper, alias1=container.lambda, alias2=container.escapeExpression;
 
   return "		<div class=\"clue\" data-category=\""
-    + alias1(container.lambda((container.data(data, 1) && container.data(data, 1).key), depth0))
+    + alias2(alias1((container.data(data, 1) && container.data(data, 1).key), depth0))
     + "\" data-index=\""
-    + alias1(((helper = (helper = helpers.index || (data && data.index)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(alias2,{"name":"index","hash":{},"data":data}) : helper)))
-    + "\">\n			<span class=\"dollar\">\n"
-    + ((stack1 = helpers["if"].call(alias2,(depth0 != null ? depth0.dailyDouble : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0, blockParams, depths),"inverse":container.program(5, data, 0, blockParams, depths),"data":data})) != null ? stack1 : "")
-    + "			</span>\n		</div>\n";
-},"3":function(container,depth0,helpers,partials,data) {
-    return "					\"DD\"\n";
-},"5":function(container,depth0,helpers,partials,data) {
-    return "				"
-    + container.escapeExpression(container.lambda((depth0 != null ? depth0.value : depth0), depth0))
-    + "\n";
+    + alias2(((helper = (helper = helpers.index || (data && data.index)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : {},{"name":"index","hash":{},"data":data}) : helper)))
+    + "\">\n			<span class=\"dollar\">\n				"
+    + alias2(alias1((depth0 != null ? depth0.value : depth0), depth0))
+    + "\n			</span>\n		</div>\n";
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data,blockParams,depths) {
     var stack1;
 
